@@ -1,0 +1,14 @@
+title: "Crescent OS"
+description: "Personal operations system"
+theme: minima
+markdown: kramdown
+
+permalink: /:title/
+
+nav:
+  - title: "Task Console"
+    url: /task-console/
+  - title: "Master Prompt"
+    url: /master-prompt/
+  - title: "Agent Instructions"
+    url: /agent-instructions/
