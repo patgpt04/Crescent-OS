@@ -1,18 +1,23 @@
 # 🌙 Crescent OS
 
+A calm personal operating system  
+for clarity, focus, and follow‑through.
+
+---
+
+## Start Here
+If you’re here to *use* Crescent:
+
+👉 **[Open the Task Console](systems/task-console.md)**
+
+---
+
+## What This Is
 Crescent OS is my personal operating system.
-It helps me manage tasks, priorities, reviews, and systems with clarity and low cognitive load.
+It helps me manage tasks, priorities, reviews, and systems
+with low cognitive load and high clarity.
 
-This repo is the **source of truth** for how Crescent works.
-
-## Core Parts
-- **/prompts**  
-  The rules of the system.
-  This includes the Master Prompt and Agent Instructions.
-
-- **/systems**  
-  How I actually operate day to day.
-  This includes the Task Console and other operating systems.
+This repository is the **source of truth** for how Crescent works.
 
 ## How I Use Crescent (Simple)
 1. Open the Task Console
