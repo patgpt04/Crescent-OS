@@ -1,94 +1,68 @@
----
-layout: default
-title: Task Console
-permalink: /task-console/
----
+# ✅ Task Console
 
-# 🌙 CRESCENT — TASK CONSOLE  
-**THURSDAY — 12 Mar 2026**
-
-## 🔑 Task Key (Authoritative Order)
-👁️‍🗨️ → ⚠️ → 🔴 → ⚪️ → 🟢 → 🟠 → 🟣 → 🟡 → ⚫️ → 🔵 → ◻️ → none
+The main command centre for Crescent OS.  
+This is the page I open to run my day.
 
 ---
 
-## 🗓️ TODAY’S TASKS (Thursday)
-🔴⚫️ — Design Crescent → OpenClaw Migration Plan (**Thursday**)  
-🔴⚫️ — Research GitHub - AI Website Creation (**Thursday**)  
-🔴🟠 — Add Gym Schedule to Tasks (**Thursday**)  
-🔴🟣 — Prepare Work Clothes for Friday (**Thursday**)  
-🔴🟡 — Snapchat Check (**Thursday**)  
-🟣 — Brush Teeth (**Thursday**)  
-🟣 — Shower (**Thursday**)  
-✅ — Bring protein powder to work (**Thursday**)  
+## Quick Navigation
+[Today](#today) ·
+[Primary Focus](#primary-focus) ·
+[Tasks](#tasks) ·
+[Events](#events) ·
+[Projects](#projects) ·
+[Goals](#goals)
 
 ---
 
-## 🎯 PRIMARY FOCUS — Active Projects  
-👁️‍🗨️ — Set Up Bedroom (**In Progress**)  
-👁️‍🗨️ — Complete Task Console (**In Progress**)  
-👁️‍🗨️ — Build Satisfactory Crescent Agent & Systems Format (**In Progress**)  
-— Move Basecamp to Copilot ( )  
-✅ — Complete Task Key (**Thursday**)  
+## Today
+**Date:**  
+**Mode:** Normal / Heavy / Recovery  
+**Intent:** What matters most today?
 
 ---
 
-## 🌙 CRESCENT SYSTEM TASKS  
-⚠️🟢 — Pay Back Bills Account (**Sunday 15 March 2026**)  
-🔴🟢⚫️ — Unsubscribe Basecamp ( )  
-⚫️ — Add Events to Task Console ( )  
-🔴⚫️ — Build Crescent Research Workflow ( )  
-⚫️ — Goal Operating System ( )  
-🔴⚫️ — Download OneNote on Phone ( )  
-⚫️ — New Crescent Calendar ( )  
-⚫️ — Road Map ( )  
-⚫️ — Fix Phone Notifications ( )  
-⚫️ — Create MPW Agent ( )  
-⚫️ — Research Power Automate ( )  
-— Learn AI Prompt ( )  
-— AI Systems ( )  
-— Office Spotify Playlist ( )
+## Primary Focus
+Only 1–2 items are allowed here.
+
+- 👁️‍🗨️ Example Primary Focus Item
+- 👁️‍🗨️ Example Primary Focus Item
 
 ---
 
-## 💻 SUNDAY ADMIN  
-⚪️ — Task review (**Sunday**)  
-⚪️ — Iron work clothes (**Sunday**)  
-⚪️ — Portfolio review (**Sunday**)  
-⚪️ — Schedule review (**Sunday**)  
+## Tasks
+Tasks scheduled or chosen for today.
+
+### ⚠️ Critical
+- [ ] Example critical task
+
+### 🔴 Important
+- [ ] Example important task
+
+### 🟢 Routine
+- [ ] Example routine task
 
 ---
 
-## 🏠 PERSONAL  
-👁️‍🗨️ — Set Up Bedroom (**In Progress**)  
-🔴🟣 — Apartment Lease Situation ( )  
-🔴🟣 — Take Wooden Drawers Back ( )  
-🟠🟣🟡 — Organise Meal Prep w/ Parents ( )  
-🟣 — Move Remaining Stuff from Apartment ( )  
-🟣 — Move Bedroom Around ( )  
-🟣 — Car Clean ( )  
-🟠 — Recover ( )  
-🟠 — Book Dentist Checkup @ Yarraville Dental Clinic ( )
+## Events
+Things happening today that are time‑based.
+
+- 🕒 Example meeting
+- 🕒 Example appointment
 
 ---
 
-## 💼 WORK  
-🟡 — Ask Cam about moving my super to BT Panorama ( )  
-— Office Spotify Playlist ( )  
-⚫️ — Create MPW Agent ( )
+## Projects
+High‑level view of active projects.
+
+- 🗂 Project Name — Status
+- 🗂 Project Name — Status
 
 ---
 
-## 🫂 SOCIAL  
-🔴🟡 — Text Angas List of Car Repairs ( )  
-🔴🟡 — Tell Grandma about Breakup ( )
+## Goals
+Longer‑term direction.
 
----
-
-## 🏋️ GYM / NUTRITION  
-🟠🟡 — Organise Meal Prep w/ Parents ( )
-
----
-
-## 📅 EVENTS  
-— March OKR Catch Up w/ Cam & Thelma (**Wednesday 8th April : 10:45am – 11:15am**)  
+- 🎯 Goal name
+- 🎯 Goal name
+``
