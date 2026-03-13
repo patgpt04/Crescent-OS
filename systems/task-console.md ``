@@ -8,61 +8,110 @@ This is the page I open to run my day.
 ## Quick Navigation
 [Today](#today) ·
 [Primary Focus](#primary-focus) ·
-[Tasks](#tasks) ·
+[Today’s Tasks](#todays-tasks) ·
 [Events](#events) ·
+[Upcoming](#upcoming) ·
 [Projects](#projects) ·
-[Goals](#goals)
+[Goals](#goals) ·
+[Progress](#progress)
 
 ---
 
 ## Today
-**Date:**  
-**Mode:** Normal / Heavy / Recovery  
-**Intent:** What matters most today?
+**Date:** Friday, 13 March 2026  
+**Intent:** (one sentence — what matters most today?)
+
+> **Rule:** If overwhelmed, reduce Primary Focus to 1 item and do the first 🔴 task.
 
 ---
 
 ## Primary Focus
-Only 1–2 items are allowed here.
+Only **1–2** items are allowed here.
 
-- 👁️‍🗨️ Example Primary Focus Item
-- 👁️‍🗨️ Example Primary Focus Item
+- [ ] 👁️‍🗨️ Perfect Crescent OS & Crescent Agent (Github & OpenClaw)
+- [ ] 👁️‍🗨️ Set Up Bedroom
 
 ---
 
-## Tasks
-Tasks scheduled or chosen for today.
+## Today’s Tasks
+Tasks that must be done today (or manually chosen to do today).  
+Use checkboxes for completion.
 
-### ⚠️ Critical
-- [ ] Example critical task
+### ⚠️ Critical (must-do)
+- [ ] (task)
 
-### 🔴 Important
-- [ ] Example important task
+### 🔴 Important (high leverage)
+- [ ] (task)
 
-### 🟢 Routine
-- [ ] Example routine task
+### 🟢 Admin / Money (quick clears)
+- [ ] (task)
+
+### 🟠 Health / Energy
+- [ ] (task)
+
+### 🟣 Personal / Home
+- [ ] (task)
+
+### 🟡 Social / Messages
+- [ ] (task)
+
+### ⚫️ System Builds (deep work)
+- [ ] (task)
 
 ---
 
 ## Events
-Things happening today that are time‑based.
+Time-based items happening today.
 
-- 🕒 Example meeting
-- 🕒 Example appointment
+- [ ] 🕒 (time) — (event)
+- [ ] 🕒 (time) — (event)
+
+---
+
+## Upcoming
+A quick look ahead (do not overload this section).
+
+### Tomorrow
+- [ ] (item)
+
+### This Week
+- [ ] (item)
 
 ---
 
 ## Projects
-High‑level view of active projects.
+Active projects (high level). Keep this short.
 
-- 🗂 Project Name — Status
-- 🗂 Project Name — Status
+- [ ] 🗂 (Project) — Next action: (one step)
+- [ ] 🗂 (Project) — Next action: (one step)
 
 ---
 
 ## Goals
-Longer‑term direction.
+Longer-term direction (3–5 max).
 
-- 🎯 Goal name
-- 🎯 Goal name
+- [ ] 🎯 (Goal)
+- [ ] 🎯 (Goal)
+- [ ] 🎯 (Goal)
+
+---
+
+## Progress
+A clean “game feel” without clutter.
+
+### Daily Score
+- Tasks completed: **0 / 0**
+- Primary Focus progress: **0 / 2**
+
+### Progress Bar (manual)
+Progress: **░░░░░░░░░░ 0%**
+
+> Fill the bar with █ as you go. Example: █████░░░░░ 50%
+
+---
+
+## Notes (Optional)
+Keep notes short. If it becomes long, move it to a separate page/file.
+
+- (note)
 ``
