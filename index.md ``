@@ -1,13 +1,19 @@
----
-layout: default
-title: Crescent OS
----
+# Crescent OS — Index
 
-# 🌙 Crescent OS
+This file is a simple map of the Crescent OS.
 
-Welcome to your operational system.
+## Prompts (Rules)
+- Master Prompt
+- Agent Instructions
 
-Key sections:
-- [Task Console](/task-console/)
-- [Master Prompt](/master-prompt/)
-- [Agent Instructions](/agent-instructions/)
+## Systems (Operations)
+- Task Console
+- Reviews
+- Scheduling
+- Finance (future)
+
+## Principle
+If something feels unclear:
+- Check the prompts first
+- Then check the system files
+``
