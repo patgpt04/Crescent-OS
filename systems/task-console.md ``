@@ -1,117 +1,25 @@
-# ✅ Task Console
+---
+layout: page
+title: Task Console
+permalink: /systems/task-console/
+---
 
-The main command centre for Crescent OS.  
-This is the page I open to run my day.
+# 🌙 CRESCENT — TASK CONSOLE  
+**SATURDAY — 14 Mar 2026**
 
 ---
 
-## Quick Navigation
-[Today](#today) ·
-[Primary Focus](#primary-focus) ·
-[Today’s Tasks](#todays-tasks) ·
-[Events](#events) ·
-[Upcoming](#upcoming) ·
-[Projects](#projects) ·
-[Goals](#goals) ·
-[Progress](#progress)
+## ⚡ SESSION BOOT (Copy/Paste Into Any AI Tool)
+```text
+CRESCENT BOOT
 
----
+[Master Prompt]
+[Agent Instructions]
+[Context Block]
+[Task Console]
 
-## Today
-**Date:** Friday, 13 March 2026  
-**Intent:** (one sentence — what matters most today?)
-
-> **Rule:** If overwhelmed, reduce Primary Focus to 1 item and do the first 🔴 task.
-
----
-
-## Primary Focus
-Only **1–2** items are allowed here.
-
-- [ ] 👁️‍🗨️ Perfect Crescent OS & Crescent Agent (Github & OpenClaw)
-- [ ] 👁️‍🗨️ Set Up Bedroom
-
----
-
-## Today’s Tasks
-Tasks that must be done today (or manually chosen to do today).  
-Use checkboxes for completion.
-
-### ⚠️ Critical (must-do)
-- [ ] (task)
-
-### 🔴 Important (high leverage)
-- [ ] (task)
-
-### 🟢 Admin / Money (quick clears)
-- [ ] (task)
-
-### 🟠 Health / Energy
-- [ ] (task)
-
-### 🟣 Personal / Home
-- [ ] (task)
-
-### 🟡 Social / Messages
-- [ ] (task)
-
-### ⚫️ System Builds (deep work)
-- [ ] (task)
-
----
-
-## Events
-Time-based items happening today.
-
-- [ ] 🕒 (time) — (event)
-- [ ] 🕒 (time) — (event)
-
----
-
-## Upcoming
-A quick look ahead (do not overload this section).
-
-### Tomorrow
-- [ ] (item)
-
-### This Week
-- [ ] (item)
-
----
-
-## Projects
-Active projects (high level). Keep this short.
-
-- [ ] 🗂 (Project) — Next action: (one step)
-- [ ] 🗂 (Project) — Next action: (one step)
-
----
-
-## Goals
-Longer-term direction (3–5 max).
-
-- [ ] 🎯 (Goal)
-- [ ] 🎯 (Goal)
-- [ ] 🎯 (Goal)
-
----
-
-## Progress
-A clean “game feel” without clutter.
-
-### Daily Score
-- Tasks completed: **0 / 0**
-- Primary Focus progress: **0 / 2**
-
-### Progress Bar (manual)
-Progress: **░░░░░░░░░░ 0%**
-
-> Fill the bar with █ as you go. Example: █████░░░░░ 50%
-
----
-
-## Notes (Optional)
-Keep notes short. If it becomes long, move it to a separate page/file.
-
-- (note)
-``
+Session Update:
+- Last session: (what we did / what changed)
+- Today: (constraints, energy, appointments)
+- Focus: (one sentence)
+Mode: TASK MODE
