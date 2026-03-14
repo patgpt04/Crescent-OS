@@ -1,22 +1,25 @@
 ---
+layout: home
 title: Crescent OS
 ---
 
-# 🌙 CRESCENT
+# 🌙 Crescent OS
 
-**Command Centre. Momentum. Mastery.**
-
-Welcome to **Crescent OS** — Patrick’s operating system for clarity, execution, and progress.
+A calm personal operating system for clarity, focus, and follow-through.
 
 ---
 
-## Quick Links
-- ✅ Task Console → ./systems/task-console.html
-- 🧠 **System** → (coming soon)
-- 📌 **Mission** → (coming soon)
+## Start Here
+If you're here to use Crescent day to day:
+
+👉 **Open the Task Console**  
+/ systems / task-console /
+
+**Direct link:** [Open the Task Console](/systems/task-console/)
 
 ---
 
-## Operating Note
-This is a **living system**.  
-The goal is simple: **reduce cognitive load and keep momentum daily.**
+## What Crescent OS Is
+Crescent OS is my personal operating system. It helps me manage tasks, priorities, reviews, and systems with low cognitive load and high clarity.
+
+This repository is the **source of truth** for how Crescent works.
