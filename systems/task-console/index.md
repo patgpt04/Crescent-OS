@@ -416,9 +416,9 @@ SATURDAY — 14 Mar 2026
   const LANES = ["CRESCENT","MPW","PERSONAL"];
   const KEY_ORDER = ["👁️‍🗨️","⚠️","🔴","⚪️","🟢","🟠","🟣","🟡","⚫️","🔵","◻️"];
 
-  const STORE_DATA = "crescent.cc.simple.data.v1";
-  const STORE_META = "crescent.cc.simple.meta.v1";
-  const STORE_ARCH = "crescent.cc.simple.archive.v1";
+  const STORE_DATA = "crescent.cc.simple.data.v2";
+  const STORE_META = "crescent.cc.simple.meta.v2";
+  const STORE_ARCH = "crescent.cc.simple.archive.v2"STORE_META = "crescent.cc.simple.meta.v2";
 
   const elMeta = document.getElementById("cc-meta");
   const elDate = document.getElementById("cc-date");
