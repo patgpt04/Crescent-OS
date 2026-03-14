@@ -4,33 +4,8 @@ title: Task Console
 permalink: /systems/task-console/
 ---
 
-# 🌙 CRESCENT — TASK CONSOLE  
-**SATURDAY — 14 Mar 2026**
-
----
-
-## ⚡ SESSION BOOT (Copy/Paste Into Any AI Tool)
-
-**CRESCENT BOOT**
-
-[Master Prompt]  
-[Agent Instructions]  
-[Context Block]  
-[Task Console]  
-
-**Session Update:**  
-- Last session: (what we did / what changed)  
-- Today: (constraints, energy, appointments)  
-- Focus: (one sentence)  
-**Mode:** TASK MODE
-
----
-
-## 🧾 DAILY / SESSION UPDATE (Live)
-- **Last session:** Fixed website header + nav; removed duplicate homepage title; Home works; Task Console page routing being fixed
-- **Today focus:** Make Task Console load reliably at `/systems/task-console/`
-
----
+🌙 CRESCENT — TASK CONSOLE  
+SATURDAY — 14 Mar 2026
 
 ## 🔑 Task Key (Authoritative Order)
 👁️‍🗨️ → ⚠️ → 🔴 → ⚪️ → 🟢 → 🟠 → 🟣 → 🟡 → ⚫️ → 🔵 → ◻️ → none
