@@ -3,15 +3,13 @@ description: "Personal operations system"
 theme: minima
 markdown: kramdown
 
-# Use clean URLs (no .html)
+# IMPORTANT: this repo is a GitHub Project Page
+# so the site lives at https://<username>.github.io/Crescent-OS/
+baseurl: "/Crescent-OS"
+
+# Clean URLs
 permalink: pretty
 
-# Minima header navigation (ONLY what you list here appears in the top bar)
+# Minima header navigation (ONLY what you list here)
 header_pages:
   - systems/task-console.md
-
-# Optional: keep your old nav list for future custom themes/layouts
-# (Minima ignores this, but leaving it doesn't hurt if you later switch themes)
-nav:
-  - title: "Task Console"
-    url: /systems/task-console/
