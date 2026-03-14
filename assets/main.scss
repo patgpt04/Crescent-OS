@@ -3,7 +3,35 @@
 
 @import "minima";
 
-/* Crescent OS: hide the default Minima header site title link */
+/* ---------------------------
+   Crescent OS — Header layout
+   --------------------------- */
+
+/* Make sure the brand title is visible (we previously hid it) */
 .site-header .site-title {
-  display: none !important;
+  display: inline-block !important;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  text-decoration: none;
+}
+
+/* Place brand on left, nav on right */
+.site-header .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Keep the nav clean and minimal */
+.site-nav {
+  margin-left: auto;
+}
+
+.site-nav a {
+  text-decoration: none;
+  margin-left: 16px;
+}
+
+.site-nav a:hover {
+  text-decoration: underline;
 }
