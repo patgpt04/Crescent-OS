@@ -3,8 +3,6 @@ layout: home
 title: Crescent OS
 ---
 
-# 🌙 Crescent OS
-
 A calm personal operating system for clarity, focus, and follow-through.
 
 ---
@@ -12,10 +10,9 @@ A calm personal operating system for clarity, focus, and follow-through.
 ## Start Here
 If you're here to use Crescent day to day:
 
-👉 **Open the Task Console**  
-/ systems / task-console /
+👉 **Open the Task Console**: {{ "/systems/task-console/" | relative_url }}
 
-**Direct link:** [Open the Task Console](/systems/task-console/)
+This is the main operating view. Everything else supports it.
 
 ---
 
@@ -23,3 +20,8 @@ If you're here to use Crescent day to day:
 Crescent OS is my personal operating system. It helps me manage tasks, priorities, reviews, and systems with low cognitive load and high clarity.
 
 This repository is the **source of truth** for how Crescent works.
+
+---
+
+## Core Areas
+✅ Task Console
