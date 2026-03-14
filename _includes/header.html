@@ -2,14 +2,14 @@
   <div class="wrapper">
 
     <!-- Brand title (NOT clickable) -->
-    <span class="site-title">
-      {{ site.title | escape }}
-    </span>
+    <div class="site-title" aria-label="Crescent OS">
+      🌙 {{ site.title | escape }}
+    </div>
 
     <!-- Header links (ONLY these) -->
     <nav class="site-nav" aria-label="Primary navigation">
-      <a class="page-link" href="{{ "/" | relative_url }}">Home</a>
-      <a class="page-link" href="{{ "/systems/task-console/" | relative_url }}">Task Console</a>
+      <a class="page-link" href="{{ '/' | relative_url }}">Home</a>
+      <a class="page-link" href="{{ '/systems/task-console/' | relative_url }}">Task Console</a>
     </nav>
 
   </div>
