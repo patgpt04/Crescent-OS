@@ -1,0 +1,14 @@
+<header class="site-header" role="banner">
+  <div class="wrapper">
+    <!-- Site title (NOT a link) -->
+    <span class="site-title" aria-label="Crescent OS">
+      {{ site.title | escape }}
+    </span>
+
+    <!-- Simple nav: Home + Task Console only -->
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="page-link" href="{{ '/' | relative_url }}">Home</a>
+      <a class="page-link" href="{{ '/systems/task-console/' | relative_url }}">Task Console</a>
+    </nav>
+  </div>
+</header>
