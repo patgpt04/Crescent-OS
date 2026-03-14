@@ -5,298 +5,322 @@ permalink: /systems/task-console/
 ---
 
 <style>
-  /* =========================================================
-     CRESCENT COMMAND CENTRE — Local-First Task OS (Layer 2)
-     - Auto-saves in browser (no GitHub paste required daily)
-     - 3 Lanes for TODAY: CRESCENT / MPW / PERSONAL
-     - NEXT + TODAY queue per lane
-     - Optional backup export
-     ========================================================= */
-
   :root{
     --bg: rgba(0,0,0,0.03);
     --card: rgba(0,0,0,0.02);
     --border: rgba(0,0,0,0.12);
-    --border2: rgba(0,0,0,0.10);
     --dash: rgba(0,0,0,0.14);
-    --txt: rgba(0,0,0,0.86);
+    --text: rgba(0,0,0,0.86);
     --muted: rgba(0,0,0,0.62);
-
-    --green1:#22c55e;
-    --green2:#16a34a;
 
     --crescent:#4f46e5;
     --mpw:#0ea5e9;
     --personal:#f59e0b;
+
+    --green1:#22c55e;
+    --green2:#16a34a;
   }
 
-  .cc-wrap{ margin-top: 10px; }
+  /* Layout */
+  .cc-wrap{ margin-top: 6px; }
+  .cc-title{
+    margin: 0 0 10px;
+    font-weight: 1000;
+    letter-spacing: 0.2px;
+  }
+  .cc-subtitle{
+    margin: -4px 0 14px;
+    color: var(--muted);
+    font-weight: 800;
+  }
 
-  /* Top command bar */
-  .cc-bar{
+  /* Minimal top controls */
+  .cc-topline{
     display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-    padding:12px; border:1px solid var(--border);
-    border-radius:14px; background: var(--bg);
-  }
-  .cc-btn{
-    appearance:none; border:1px solid rgba(0,0,0,0.18);
-    background:#fff; border-radius:12px;
-    padding:8px 10px; cursor:pointer; font-weight:900;
-    letter-spacing:0.2px;
-  }
-  .cc-btn:hover{ background: rgba(0,0,0,0.04); }
-  .cc-bar input[type="text"], .cc-bar select{
-    padding:8px 10px; border-radius:12px;
-    border:1px solid rgba(0,0,0,0.18); background:#fff;
-    min-width:170px;
-  }
-  .cc-meta{ margin-left:auto; opacity:0.8; font-weight:800; }
-
-  /* HUD */
-  .cc-hud{
-    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-    margin-top:10px; padding:12px;
-    border:1px solid var(--border2);
-    border-radius:14px; background: var(--card);
+    margin: 8px 0 12px;
   }
   .cc-pill{
-    padding:6px 10px; border-radius:999px;
-    border:1px solid rgba(0,0,0,0.14);
-    background:rgba(255,255,255,0.85);
-    font-weight:900; font-size:0.92em;
+    display:inline-flex; gap:8px; align-items:center;
+    padding: 6px 10px;
+    border: 1px solid rgba(0,0,0,0.14);
+    border-radius: 999px;
+    background: rgba(255,255,255,0.85);
+    font-weight: 900;
+    font-size: 0.92em;
   }
   .cc-progress{
-    flex:1; min-width:220px; height:10px;
-    border-radius:999px; overflow:hidden;
-    background:rgba(0,0,0,0.10);
-    border:1px solid rgba(0,0,0,0.10);
+    flex:1; min-width: 220px; height: 10px;
+    border-radius: 999px;
+    overflow:hidden;
+    border: 1px solid rgba(0,0,0,0.10);
+    background: rgba(0,0,0,0.10);
   }
   .cc-progress > div{
     width:0%; height:100%;
     background: linear-gradient(90deg, var(--green1), var(--green2));
   }
-
-  /* Tabs */
-  .cc-tabs{
-    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
-    margin-top:12px;
-  }
-  .cc-tab{
-    appearance:none; border:1px solid rgba(0,0,0,0.14);
-    background:#fff; border-radius:999px;
-    padding:7px 10px; cursor:pointer; font-weight:900;
-    opacity:0.85;
-  }
-  .cc-tab[aria-selected="true"]{
-    opacity:1; border-color: rgba(0,0,0,0.22);
-    box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  .cc-meta{
+    margin-left:auto;
+    color: var(--muted);
+    font-weight: 900;
+    font-size: 0.92em;
   }
 
-  /* Main grid */
-  .cc-grid{ display:grid; grid-template-columns: 1fr; gap:14px; margin-top:14px; }
+  /* Actions dropdown (keeps UI clean) */
+  details.cc-actions{
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg);
+    padding: 10px 12px;
+    margin: 0 0 12px;
+  }
+  details.cc-actions > summary{
+    cursor:pointer;
+    font-weight: 1000;
+    list-style:none;
+  }
+  details.cc-actions > summary::-webkit-details-marker{ display:none; }
+  .cc-actions-row{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    margin-top: 10px;
+  }
+  .cc-btn{
+    appearance:none;
+    border:1px solid rgba(0,0,0,0.18);
+    background:#fff;
+    border-radius: 12px;
+    padding: 8px 10px;
+    cursor:pointer;
+    font-weight: 1000;
+  }
+  .cc-btn:hover{ background: rgba(0,0,0,0.04); }
+  .cc-actions-row input[type="text"], .cc-actions-row select{
+    padding: 8px 10px;
+    border:1px solid rgba(0,0,0,0.18);
+    background:#fff;
+    border-radius: 12px;
+    min-width: 160px;
+  }
+  .cc-actions-row label{
+    display:flex; gap:8px; align-items:center;
+    font-weight: 900;
+    color: var(--text);
+  }
+
+  /* Lanes */
+  .cc-lanes{
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
   @media(min-width: 980px){
-    .cc-grid.cc-three{ grid-template-columns: 1fr 1fr 1fr; }
+    .cc-lanes{ grid-template-columns: 1fr 1fr 1fr; }
   }
-
-  /* Lane cards */
   .cc-lane{
-    border:1px solid var(--border2);
-    border-radius:16px; background: var(--card);
-    padding:12px 12px 10px;
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 16px;
+    background: var(--card);
+    padding: 12px 12px 10px;
   }
   .cc-lanehead{
-    display:flex; gap:10px; align-items:center; margin:0 0 8px;
+    display:flex; gap:10px; align-items:center; margin-bottom: 10px;
   }
-  .cc-lanetitle{
-    margin:0; font-size:1.05rem; font-weight:1000;
-    letter-spacing:0.2px;
-  }
-  .cc-lanebadge{
-    margin-left:auto;
-    font-weight:900; opacity:0.75;
-  }
-  .cc-lanedot{
-    width:10px; height:10px; border-radius:99px;
+  .cc-dot{
+    width: 10px; height: 10px; border-radius: 99px;
     background: var(--crescent);
     box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
   }
-  .cc-lane[data-lane="MPW"] .cc-lanedot{
+  .cc-lane[data-lane="MPW"] .cc-dot{
     background: var(--mpw);
     box-shadow: 0 0 0 3px rgba(14,165,233,0.18);
   }
-  .cc-lane[data-lane="PERSONAL"] .cc-lanedot{
+  .cc-lane[data-lane="PERSONAL"] .cc-dot{
     background: var(--personal);
     box-shadow: 0 0 0 3px rgba(245,158,11,0.18);
   }
+  .cc-lanetitle{
+    margin:0;
+    font-weight: 1100;
+    letter-spacing: 0.2px;
+  }
+  .cc-lanemeta{
+    margin-left:auto;
+    font-weight: 1000;
+    color: var(--muted);
+    font-size: 0.92em;
+  }
 
-  /* Subsections inside lane */
-  .cc-sub{
-    margin-top:10px;
+  .cc-block{
     border:1px solid rgba(0,0,0,0.10);
-    border-radius:14px; background: rgba(255,255,255,0.45);
-    padding:10px;
+    border-radius: 14px;
+    background: rgba(255,255,255,0.45);
+    padding: 10px;
+    margin-top: 10px;
   }
-  .cc-subhead{
-    display:flex; gap:8px; align-items:center; margin-bottom:8px;
+  .cc-blockhead{
+    display:flex; gap:8px; align-items:center;
+    margin-bottom: 8px;
   }
-  .cc-subhead h4{
-    margin:0; font-size:0.95rem; font-weight:1000;
+  .cc-blockhead h4{
+    margin:0;
+    font-weight: 1100;
+    font-size: 0.95rem;
   }
-  .cc-submeta{ margin-left:auto; opacity:0.7; font-weight:900; font-size:0.9em; }
+  .cc-blockmeta{
+    margin-left:auto;
+    font-weight: 1000;
+    color: var(--muted);
+    font-size: 0.9em;
+  }
 
   .cc-tasklist{ list-style:none; padding:0; margin:0; }
   .cc-task{
-    display:grid; grid-template-columns: 22px 1fr; gap:10px;
-    padding:8px 0; border-top:1px dashed var(--dash);
+    display:grid;
+    grid-template-columns: 22px 1fr;
+    gap: 10px;
+    padding: 8px 0;
+    border-top: 1px dashed var(--dash);
     align-items:start;
   }
   .cc-task:first-child{ border-top:none; }
-
   .cc-task input{ transform: translateY(2px); }
-  .cc-line{ white-space:pre-wrap; line-height:1.25; color: var(--txt); }
-  .cc-done .cc-line{ opacity:0.55; text-decoration: line-through; }
+  .cc-line{ white-space: pre-wrap; line-height: 1.25; color: var(--text); }
+  .cc-done .cc-line{ opacity: 0.55; text-decoration: line-through; }
 
-  .cc-rowmeta{
-    display:flex; gap:8px; align-items:center; flex-wrap:wrap;
-    margin-top:4px;
+  .cc-rowactions{
+    display:flex; flex-wrap:wrap; gap:8px;
+    margin-top: 6px;
   }
-  .cc-chip{
-    font-size:0.78em; padding:2px 8px; border-radius:999px;
-    border:1px solid rgba(0,0,0,0.14); opacity:0.88;
-    background:rgba(255,255,255,0.85);
-    font-weight:800;
-  }
-  .cc-chip.lane{ border-color: rgba(0,0,0,0.18); }
-  .cc-chip.lane[data-lane="CRESCENT"]{ color: #2f2acb; }
-  .cc-chip.lane[data-lane="MPW"]{ color: #0277bd; }
-  .cc-chip.lane[data-lane="PERSONAL"]{ color: #b45309; }
-
   .cc-mini{
-    appearance:none; border:1px solid rgba(0,0,0,0.14);
-    background:#fff; border-radius:10px;
-    padding:4px 8px; cursor:pointer; font-weight:900;
-    font-size: 0.82em; opacity:0.9;
+    appearance:none;
+    border:1px solid rgba(0,0,0,0.14);
+    background:#fff;
+    border-radius: 10px;
+    padding: 4px 8px;
+    cursor:pointer;
+    font-weight: 1000;
+    font-size: 0.82em;
+    opacity: 0.9;
   }
   .cc-mini:hover{ background: rgba(0,0,0,0.04); }
 
   .cc-add{
     display:flex; gap:8px; align-items:center; flex-wrap:wrap;
-    margin-top:10px;
+    margin-top: 10px;
   }
   .cc-add input[type="text"]{
-    flex:1; min-width:220px;
-    padding:8px 10px; border-radius:12px;
-    border:1px solid rgba(0,0,0,0.18); background:#fff;
+    flex:1; min-width: 210px;
+    padding: 8px 10px;
+    border:1px solid rgba(0,0,0,0.18);
+    background:#fff;
+    border-radius: 12px;
   }
 
-  /* Secondary views */
-  .cc-view{ display:none; }
-  .cc-view.active{ display:block; }
+  /* Events + future space */
+  .cc-below{
+    margin-top: 14px;
+    display:grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  @media(min-width: 980px){
+    .cc-below{ grid-template-columns: 1.25fr 0.75fr; }
+  }
+  .cc-panel{
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 16px;
+    background: var(--card);
+    padding: 12px;
+  }
+  .cc-panel h3{
+    margin: 0 0 10px;
+    font-weight: 1100;
+  }
+  .cc-list{ margin:0; padding-left: 18px; color: var(--text); }
+  .cc-muted{ color: var(--muted); font-weight: 800; }
 
-  /* Export */
+  /* Backup export */
   .cc-export{
-    margin-top:14px;
-    border:1px solid var(--border);
-    border-radius:16px;
-    padding:12px;
+    margin-top: 14px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px;
     background: var(--card);
   }
-  .cc-exporthead{ display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+  .cc-exporthead{
+    display:flex; gap:10px; align-items:center; margin-bottom: 10px;
+  }
   .cc-export textarea{
-    width:100%; min-height:260px;
-    border-radius:14px; padding:10px;
-    border:1px solid rgba(0,0,0,0.18);
+    width:100%;
+    min-height: 260px;
+    border-radius: 14px;
+    padding: 10px;
+    border: 1px solid rgba(0,0,0,0.18);
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
-    font-size: 12.5px; line-height: 1.35;
+    font-size: 12.5px;
+    line-height: 1.35;
   }
   .cc-hidden{ display:none !important; }
-
-  /* Small helper text */
-  .cc-note{
-    margin-top: 10px;
-    padding: 10px 12px;
-    border: 1px solid rgba(0,0,0,0.10);
-    border-radius: 14px;
-    background: rgba(0,0,0,0.02);
-    color: var(--muted);
-    font-weight: 700;
-  }
 </style>
 
 <div class="cc-wrap">
-  <!-- COMMAND BAR -->
-  <div class="cc-bar">
-    <button class="cc-btn" type="button" id="cc-newday-btn" title="Roll to a new day (local). Completed tasks are archived locally.">NEW DAY</button>
-    <button class="cc-btn" type="button" id="cc-export-btn" title="Optional backup export (paste into GitHub if you want).">BACKUP (EXPORT)</button>
-    <button class="cc-btn" type="button" id="cc-copy-btn">COPY BACKUP</button>
-    <button class="cc-btn" type="button" id="cc-reset-btn" title="Reset local state back to the seed console in this file.">RESET LOCAL</button>
+  <h2 class="cc-title">🌙 Crescent Command Centre</h2>
+  <div class="cc-subtitle">Three lanes. One day. No drift.</div>
 
-    <label style="display:flex; align-items:center; gap:8px;">
-      <span style="font-weight:1000;">Sort</span>
-      <select id="cc-sort">
-        <option value="system" selected>System (In Progress → Key Order → A–Z)</option>
-        <option value="az">A–Z</option>
-        <option value="written">As Written</option>
-      </select>
-    </label>
-
-    <label style="display:flex; align-items:center; gap:8px;">
-      <input type="checkbox" id="cc-hide-done" />
-      <span style="font-weight:1000;">Hide ✅</span>
-    </label>
-
-    <input type="text" id="cc-search" placeholder="Search…" />
-    <span class="cc-meta" id="cc-meta">Auto‑save: ON</span>
-  </div>
-
-  <!-- HUD -->
-  <div class="cc-hud">
+  <!-- Minimal HUD line -->
+  <div class="cc-topline">
     <span class="cc-pill" id="cc-date">—</span>
     <span class="cc-pill" id="cc-pill-total">Tasks: 0</span>
     <span class="cc-pill" id="cc-pill-done">Done: 0</span>
-    <span class="cc-pill" id="cc-pill-xp">XP: 0</span>
     <div class="cc-progress" aria-label="progress"><div id="cc-progress-bar"></div></div>
-    <span class="cc-pill" id="cc-pill-level">Level: 1</span>
+    <span class="cc-meta" id="cc-meta">Auto‑save: ON</span>
   </div>
 
-  <!-- TABS -->
-  <div class="cc-tabs" role="tablist" aria-label="Task Console Views">
-    <button class="cc-tab" type="button" role="tab" aria-selected="true" data-view="today">Crescent Command Centre</button>
-    <button class="cc-tab" type="button" role="tab" aria-selected="false" data-view="projects">Projects</button>
-    <button class="cc-tab" type="button" role="tab" aria-selected="false" data-view="backlog">Backlog</button>
-    <button class="cc-tab" type="button" role="tab" aria-selected="false" data-view="calendar">Calendar</button>
-    <button class="cc-tab" type="button" role="tab" aria-selected="false" data-view="admin">Admin</button>
-    <button class="cc-tab" type="button" role="tab" aria-selected="false" data-view="archive">Archive</button>
-  </div>
+  <!-- Lanes FIRST (focal point) -->
+  <div class="cc-lanes" id="cc-lanes"></div>
 
-  <!-- TODAY VIEW -->
-  <div class="cc-view active" id="cc-view-today">
-    <div class="cc-grid cc-three" id="cc-lanes"></div>
+  <!-- Room below for Events / Reminders / Inbox (later) -->
+  <div class="cc-below">
+    <div class="cc-panel">
+      <h3>📅 Upcoming Events</h3>
+      <ul class="cc-list" id="cc-events"></ul>
+      <div class="cc-muted" id="cc-events-empty">No events captured yet.</div>
+    </div>
 
-    <div class="cc-note">
-      <strong>How this works:</strong> This page auto-saves as you use it (same device/browser). Backup export is optional.
-      Lane assignment is automatic from your original sections, and you can manually change any task’s lane with “MOVE LANE”.
+    <div class="cc-panel">
+      <h3>📌 Next Add / Capture</h3>
+      <div class="cc-muted">Use Quick Add inside a lane. Later we’ll add: Reminders + Inbox + Calendar sync.</div>
     </div>
   </div>
 
-  <!-- OTHER VIEWS (placeholder scaffolds so we can expand later without rework) -->
-  <div class="cc-view" id="cc-view-projects">
-    <div class="cc-note"><strong>Projects</strong> is next. We’ll wire 👁️‍🗨️ (In Progress) into quest cards.</div>
-  </div>
-  <div class="cc-view" id="cc-view-backlog">
-    <div class="cc-note"><strong>Backlog</strong> is next. We’ll group by domains inside Crescent (Finance/Trading/Health/Ops) + MPW + Personal.</div>
-  </div>
-  <div class="cc-view" id="cc-view-calendar">
-    <div class="cc-note"><strong>Calendar</strong> will be fed by real calendar later (Layer 3). For now we’ll show your embedded events.</div>
-  </div>
-  <div class="cc-view" id="cc-view-admin">
-    <div class="cc-note"><strong>Admin</strong> will surface bills/subscriptions and Sunday admin cleanly.</div>
-  </div>
-  <div class="cc-view" id="cc-view-archive">
-    <div class="cc-note"><strong>Archive</strong> will show completed, streaks, and “wins” later.</div>
-  </div>
+  <!-- Controls moved into dropdown to keep top clean -->
+  <details class="cc-actions">
+    <summary>⚙️ Actions & Filters</summary>
+    <div class="cc-actions-row">
+      <button class="cc-btn" type="button" id="cc-newday-btn">NEW DAY</button>
+      <button class="cc-btn" type="button" id="cc-export-btn">BACKUP (EXPORT)</button>
+      <button class="cc-btn" type="button" id="cc-copy-btn">COPY BACKUP</button>
+      <button class="cc-btn" type="button" id="cc-reset-btn" title="Reset local state back to the seed in this file.">RESET LOCAL</button>
 
-  <!-- EXPORT -->
+      <label>
+        Sort
+        <select id="cc-sort">
+          <option value="system" selected>System</option>
+          <option value="az">A–Z</option>
+          <option value="written">As Written</option>
+        </select>
+      </label>
+
+      <label>
+        <input type="checkbox" id="cc-hide-done" />
+        Hide ✅
+      </label>
+
+      <input type="text" id="cc-search" placeholder="Search…" />
+    </div>
+  </details>
+
+  <!-- Export (optional) -->
   <div class="cc-export cc-hidden" id="cc-export">
     <div class="cc-exporthead">
       <strong>Backup Export (optional)</strong>
@@ -306,10 +330,7 @@ permalink: /systems/task-console/
   </div>
 </div>
 
-<!-- =========================================================
-     RAW SEED CONSOLE (starting point; used only on first import
-     or when you RESET LOCAL)
-     ========================================================= -->
+<!-- RAW SEED CONSOLE -->
 <script type="text/plain" id="cc-raw">
 🌙 CRESCENT — TASK CONSOLE  
 SATURDAY — 14 Mar 2026
@@ -392,23 +413,18 @@ SATURDAY — 14 Mar 2026
 
 <script>
 (() => {
-  // =========================================================
-  // Crescent Command Centre — Local-first store
-  // =========================================================
   const LANES = ["CRESCENT","MPW","PERSONAL"];
   const KEY_ORDER = ["👁️‍🗨️","⚠️","🔴","⚪️","🟢","🟠","🟣","🟡","⚫️","🔵","◻️"];
 
-  const STORE_DATA = "crescent.cc.data.v1";     // { sections:[{title, tasks:[...]}], sectionOrder:[...] }
-  const STORE_META = "crescent.cc.meta.v1";     // { dateLabel, pinned:{CRESCENT:id,MPW:id,PERSONAL:id} }
-  const STORE_ARCH = "crescent.cc.archive.v1";  // [{rolledFrom, rolledTo, completed:[...]}]
+  const STORE_DATA = "crescent.cc.simple.data.v1";
+  const STORE_META = "crescent.cc.simple.meta.v1";
+  const STORE_ARCH = "crescent.cc.simple.archive.v1";
 
-  // Elements
   const elMeta = document.getElementById("cc-meta");
   const elDate = document.getElementById("cc-date");
   const elSort = document.getElementById("cc-sort");
   const elHide = document.getElementById("cc-hide-done");
   const elSearch = document.getElementById("cc-search");
-
   const elLanes = document.getElementById("cc-lanes");
 
   const btnNewDay = document.getElementById("cc-newday-btn");
@@ -422,13 +438,13 @@ SATURDAY — 14 Mar 2026
 
   const pillTotal = document.getElementById("cc-pill-total");
   const pillDone = document.getElementById("cc-pill-done");
-  const pillXP = document.getElementById("cc-pill-xp");
-  const pillLevel = document.getElementById("cc-pill-level");
   const bar = document.getElementById("cc-progress-bar");
+
+  const elEvents = document.getElementById("cc-events");
+  const elEventsEmpty = document.getElementById("cc-events-empty");
 
   const raw = (document.getElementById("cc-raw")?.textContent || "").replace(/\r\n/g,"\n");
 
-  // Helpers
   const norm = (s) => (s || "").replace(/\uFE0F/g,"");
   const load = (k, fallback) => { try { return JSON.parse(localStorage.getItem(k) || JSON.stringify(fallback)); } catch { return fallback; } };
   const save = (k, v) => localStorage.setItem(k, JSON.stringify(v));
@@ -437,7 +453,7 @@ SATURDAY — 14 Mar 2026
   const dayName = (d) => ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][d.getDay()];
   const monthName = (d) => ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getMonth()];
   const dateLabel = (d) => `${dayName(d).toUpperCase()} — ${String(d.getDate()).padStart(2,"0")} ${monthName(d)} ${d.getFullYear()}`;
-  const todayWeekday = () => dayName(now()); // e.g. "Saturday"
+  const todayWeekday = () => dayName(now()); // "Saturday"
 
   const isTaskLine = (line) => {
     const s = (line || "").trim();
@@ -457,29 +473,29 @@ SATURDAY — 14 Mar 2026
     return 999;
   };
 
+  // Lane inference rules (LOCKED to your definition):
+  // - MPW = work-related sections
+  // - PERSONAL = social/leisure (default for SOCIAL section)
+  // - Everything else defaults to CRESCENT (your "life-business" umbrella)
   const inferLaneFromSection = (sectionTitle) => {
     const t = (sectionTitle || "").toLowerCase();
     if (t.includes("work") || t.includes("mpw")) return "MPW";
     if (t.includes("social")) return "PERSONAL";
-    if (t.includes("events")) return "MPW"; // your events currently are mostly work; we can refine later
+    // "personal" section in your old console = life maintenance → CRESCENT under your new model
+    if (t.trim() === "personal") return "CRESCENT";
     return "CRESCENT";
   };
 
-  const lineHasTodayMarker = (line) => {
-    const wd = todayWeekday(); // "Saturday"
-    return (line || "").includes(`(**${wd}**)`) || (line || "").includes(`(**${wd.toUpperCase()}**)`);
-  };
+  const sectionIsTodaysTasks = (sectionTitle) => (sectionTitle || "").toLowerCase().includes("today") && (sectionTitle || "").toLowerCase().includes("tasks");
+  const lineHasTodayMarker = (line) => (line || "").includes(`(**${todayWeekday()}**)`) || (line || "").includes(`(**${todayWeekday().toUpperCase()}**)`);
+  const isTodayTask = (t) => sectionIsTodaysTasks(t.sectionTitle) || lineHasTodayMarker(t.line);
 
-  const sectionIsTodaysTasks = (sectionTitle) => {
-    const t = (sectionTitle || "").toLowerCase();
-    return t.includes("today") && t.includes("tasks");
-  };
-
-  // Import raw seed into data model
   const importFromRaw = () => {
     const lines = raw.split("\n");
     const sections = [];
     let current = { title: "TOP", tasks: [], nonTasks: [] };
+
+    const events = [];
 
     lines.forEach((line) => {
       const t = line.trim();
@@ -488,16 +504,22 @@ SATURDAY — 14 Mar 2026
         current = { title: t.replace(/^##\s*/,""), tasks: [], nonTasks: [] };
         return;
       }
+
+      // EVENTS section: store as events, not tasks
+      if ((current.title || "").toLowerCase().includes("events")) {
+        if (t) events.push(t);
+        return;
+      }
+
       if (isTaskLine(line)) {
         const done = t.startsWith("✅");
-        const id = stableId(line);
         current.tasks.push({
-          id,
+          id: stableId(line),
           line: t,
           done,
           order: current.tasks.length,
           createdAt: Date.now(),
-          section: current.title,
+          sectionTitle: current.title,
           lane: inferLaneFromSection(current.title)
         });
       } else {
@@ -506,14 +528,14 @@ SATURDAY — 14 Mar 2026
     });
     sections.push(current);
 
-    // preserve written order (skip TOP)
     const sectionOrder = sections.map(s => s.title).filter(x => x !== "TOP");
-    return { sections, sectionOrder };
+    return { sections, sectionOrder, events };
   };
 
   const ensureData = () => {
     const existing = localStorage.getItem(STORE_DATA);
     if (existing) return load(STORE_DATA, null);
+
     const d = importFromRaw();
     save(STORE_DATA, d);
 
@@ -526,89 +548,74 @@ SATURDAY — 14 Mar 2026
   let data = ensureData();
   let meta = load(STORE_META, { dateLabel: dateLabel(now()), pinned:{CRESCENT:null,MPW:null,PERSONAL:null} });
 
-  // Flatten helpers
   const allTasks = () => data.sections
     .filter(s => s.title !== "TOP")
-    .flatMap(s => s.tasks.map(t => ({...t, sectionTitle: s.title})));
+    .flatMap(s => (s.tasks || []).map(t => ({...t})));
 
-  const updateHud = () => {
-    const tasks = allTasks();
-    const total = tasks.length;
-    const done = tasks.filter(t => t.done).length;
-    const xp = done * 10;
-    const level = Math.max(1, Math.floor(xp/100)+1);
-    const pct = total ? Math.round((done/total)*100) : 0;
-
-    elDate.textContent = meta.dateLabel || dateLabel(now());
-    pillTotal.textContent = `Tasks: ${total}`;
-    pillDone.textContent = `Done: ${done}`;
-    pillXP.textContent = `XP: ${xp}`;
-    pillLevel.textContent = `Level: ${level}`;
-    bar.style.width = pct + "%";
-  };
-
-  // Sort
   const applySort = (tasks, mode) => {
     const copy = [...tasks];
-    if (mode === "written") {
-      copy.sort((a,b) => (a.order ?? 0) - (b.order ?? 0));
-      return copy;
-    }
-    if (mode === "az") {
-      copy.sort((a,b)=> (a.line || "").localeCompare(b.line || ""));
-      return copy;
-    }
-    // system
+    if (mode === "written") { copy.sort((a,b)=>(a.order??0)-(b.order??0)); return copy; }
+    if (mode === "az") { copy.sort((a,b)=>(a.line||"").localeCompare(b.line||"")); return copy; }
     copy.sort((a,b)=>{
       const ra = keyRank(a.line), rb = keyRank(b.line);
       if (ra !== rb) return ra - rb;
-      return (a.line || "").localeCompare(b.line || "");
+      return (a.line||"").localeCompare(b.line||"");
     });
     return copy;
   };
 
-  // TODAY selection rules:
-  // - anything under the "TODAY’S TASKS" section is today
-  // - OR tasks with (**<weekday>**) marker are today
-  const isTodayTask = (t) => sectionIsTodaysTasks(t.sectionTitle) || lineHasTodayMarker(t.line);
+  const toggleDone = (taskId, value) => {
+    for (const sec of data.sections){
+      if (sec.title === "TOP") continue;
+      const found = (sec.tasks || []).find(x => x.id === taskId);
+      if (found){ found.done = value; save(STORE_DATA, data); return true; }
+    }
+    return false;
+  };
 
-  // Pinning (NEXT)
+  const moveLane = (taskId, toLane) => {
+    for (const sec of data.sections){
+      if (sec.title === "TOP") continue;
+      const found = (sec.tasks || []).find(x => x.id === taskId);
+      if (found){ found.lane = toLane; save(STORE_DATA, data); return true; }
+    }
+    return false;
+  };
+
   const pinTask = (lane, taskId) => {
     meta.pinned = meta.pinned || {CRESCENT:null,MPW:null,PERSONAL:null};
     meta.pinned[lane] = taskId;
     save(STORE_META, meta);
   };
 
-  const moveLane = (taskId, toLane) => {
-    // Find task and update lane
-    for (const sec of data.sections){
-      if (sec.title === "TOP") continue;
-      const found = sec.tasks.find(x => x.id === taskId);
-      if (found){
-        found.lane = toLane;
-        save(STORE_DATA, data);
-        elMeta.textContent = "Auto‑save: ON ✅";
-        return true;
-      }
-    }
-    return false;
+  const updateHud = () => {
+    const tasks = allTasks();
+    const total = tasks.length;
+    const done = tasks.filter(t=>t.done).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+
+    elDate.textContent = meta.dateLabel || dateLabel(now());
+    pillTotal.textContent = `Tasks: ${total}`;
+    pillDone.textContent = `Done: ${done}`;
+    bar.style.width = pct + "%";
+    elMeta.textContent = "Auto‑save: ON";
   };
 
-  const toggleDone = (taskId, value) => {
-    for (const sec of data.sections){
-      if (sec.title === "TOP") continue;
-      const found = sec.tasks.find(x => x.id === taskId);
-      if (found){
-        found.done = value;
-        save(STORE_DATA, data);
-        elMeta.textContent = "Auto‑save: ON ✅";
-        return true;
-      }
+  const renderEvents = () => {
+    elEvents.innerHTML = "";
+    const events = data.events || [];
+    if (!events.length){
+      elEventsEmpty.style.display = "block";
+      return;
     }
-    return false;
+    elEventsEmpty.style.display = "none";
+    events.forEach(e => {
+      const li = document.createElement("li");
+      li.textContent = e;
+      elEvents.appendChild(li);
+    });
   };
 
-  // UI Builders
   const laneCard = (lane) => {
     const card = document.createElement("div");
     card.className = "cc-lane";
@@ -618,73 +625,53 @@ SATURDAY — 14 Mar 2026
     head.className = "cc-lanehead";
 
     const dot = document.createElement("div");
-    dot.className = "cc-lanedot";
+    dot.className = "cc-dot";
 
     const title = document.createElement("h3");
     title.className = "cc-lanetitle";
     title.textContent = lane;
 
-    const badge = document.createElement("div");
-    badge.className = "cc-lanebadge";
-    badge.id = `cc-badge-${lane}`;
+    const metaEl = document.createElement("div");
+    metaEl.className = "cc-lanemeta";
+    metaEl.id = `cc-lanemeta-${lane}`;
 
     head.appendChild(dot);
     head.appendChild(title);
-    head.appendChild(badge);
+    head.appendChild(metaEl);
 
-    // NEXT block
     const next = document.createElement("div");
-    next.className = "cc-sub";
+    next.className = "cc-block";
     const nextHead = document.createElement("div");
-    nextHead.className = "cc-subhead";
-    const nextH = document.createElement("h4");
-    nextH.textContent = "NEXT";
-    const nextMeta = document.createElement("div");
-    nextMeta.className = "cc-submeta";
-    nextMeta.id = `cc-next-meta-${lane}`;
-    nextHead.appendChild(nextH);
-    nextHead.appendChild(nextMeta);
-    next.appendChild(nextHead);
-
+    nextHead.className = "cc-blockhead";
+    nextHead.innerHTML = `<h4>NEXT</h4><div class="cc-blockmeta" id="cc-nextmeta-${lane}">—</div>`;
     const nextList = document.createElement("ul");
     nextList.className = "cc-tasklist";
     nextList.id = `cc-next-${lane}`;
+    next.appendChild(nextHead);
     next.appendChild(nextList);
 
-    // TODAY block
     const today = document.createElement("div");
-    today.className = "cc-sub";
+    today.className = "cc-block";
     const todayHead = document.createElement("div");
-    todayHead.className = "cc-subhead";
-    const todayH = document.createElement("h4");
-    todayH.textContent = "TODAY";
-    const todayMeta = document.createElement("div");
-    todayMeta.className = "cc-submeta";
-    todayMeta.id = `cc-today-meta-${lane}`;
-    todayHead.appendChild(todayH);
-    todayHead.appendChild(todayMeta);
-    today.appendChild(todayHead);
-
+    todayHead.className = "cc-blockhead";
+    todayHead.innerHTML = `<h4>TODAY</h4><div class="cc-blockmeta" id="cc-todaymeta-${lane}">0/0</div>`;
     const todayList = document.createElement("ul");
     todayList.className = "cc-tasklist";
     todayList.id = `cc-today-${lane}`;
+    today.appendChild(todayHead);
     today.appendChild(todayList);
 
-    // Quick add
     const add = document.createElement("div");
     add.className = "cc-add";
-
     const input = document.createElement("input");
     input.type = "text";
     input.placeholder = `Quick Add to ${lane}…`;
     input.id = `cc-add-${lane}`;
-
     const addBtn = document.createElement("button");
     addBtn.className = "cc-btn";
     addBtn.type = "button";
     addBtn.textContent = "ADD";
     addBtn.addEventListener("click", () => quickAdd(lane, input));
-
     add.appendChild(input);
     add.appendChild(addBtn);
 
@@ -703,10 +690,7 @@ SATURDAY — 14 Mar 2026
     const cb = document.createElement("input");
     cb.type = "checkbox";
     cb.checked = !!t.done;
-    cb.addEventListener("change", () => {
-      toggleDone(t.id, cb.checked);
-      render();
-    });
+    cb.addEventListener("change", () => { toggleDone(t.id, cb.checked); render(); });
 
     const box = document.createElement("div");
 
@@ -714,122 +698,73 @@ SATURDAY — 14 Mar 2026
     line.className = "cc-line";
     line.textContent = t.line;
 
-    const metaRow = document.createElement("div");
-    metaRow.className = "cc-rowmeta";
+    const actions = document.createElement("div");
+    actions.className = "cc-rowactions";
 
-    const laneChip = document.createElement("span");
-    laneChip.className = "cc-chip lane";
-    laneChip.dataset.lane = t.lane || laneContext;
-    laneChip.textContent = t.lane || laneContext;
-    metaRow.appendChild(laneChip);
-
-    // Pin button
     const pinBtn = document.createElement("button");
     pinBtn.className = "cc-mini";
     pinBtn.type = "button";
     pinBtn.textContent = "SET NEXT";
-    pinBtn.addEventListener("click", () => {
-      pinTask(laneContext, t.id);
-      elMeta.textContent = "Pinned NEXT ✅";
-      render();
-    });
-    metaRow.appendChild(pinBtn);
+    pinBtn.addEventListener("click", () => { pinTask(laneContext, t.id); render(); });
 
-    // Move lane button (cycles)
     const moveBtn = document.createElement("button");
     moveBtn.className = "cc-mini";
     moveBtn.type = "button";
     moveBtn.textContent = "MOVE LANE";
     moveBtn.addEventListener("click", () => {
-      const current = t.lane || laneContext;
-      const idx = LANES.indexOf(current);
+      const idx = LANES.indexOf(t.lane);
       const nextLane = LANES[(idx + 1) % LANES.length];
       moveLane(t.id, nextLane);
-      // If it was pinned in old lane, unpin
-      if (meta.pinned && meta.pinned[current] === t.id) {
-        meta.pinned[current] = null;
-        save(STORE_META, meta);
-      }
-      elMeta.textContent = `Moved to ${nextLane} ✅`;
+      // If it was pinned in old lane, unpin it
+      if (meta.pinned && meta.pinned[t.lane] === t.id){ meta.pinned[t.lane] = null; save(STORE_META, meta); }
       render();
     });
-    metaRow.appendChild(moveBtn);
 
-    // Chips: show key emojis present
-    KEY_ORDER.forEach(k => {
-      if (norm(t.line).includes(norm(k))) {
-        const chip = document.createElement("span");
-        chip.className = "cc-chip";
-        chip.textContent = k;
-        metaRow.appendChild(chip);
-      }
-    });
-    if (t.line.includes("(**In Progress**)")) {
-      const chip = document.createElement("span");
-      chip.className = "cc-chip";
-      chip.textContent = "In Progress";
-      metaRow.appendChild(chip);
-    }
+    actions.appendChild(pinBtn);
+    actions.appendChild(moveBtn);
 
     box.appendChild(line);
-    box.appendChild(metaRow);
+    box.appendChild(actions);
 
     li.appendChild(cb);
     li.appendChild(box);
     return li;
   };
 
-  // Quick add: adds to TODAY’S TASKS section if it exists, else first section.
-  // Adds a weekday marker by default for today: (**<weekday>**)
   const quickAdd = (lane, inputEl) => {
     const text = (inputEl.value || "").trim();
-    if (!text) { elMeta.textContent = "Type a task first"; return; }
+    if (!text) return;
 
-    // We accept either a full task line OR a plain sentence.
-    // If user typed plain sentence, we wrap it into a basic task.
     let line = text;
-    if (!isTaskLine(line)) {
-      // Make it a simple "—" task with today marker
-      line = `— ${line} (**${todayWeekday()}**)`;
-    } else {
-      // Ensure it has a today marker if none present
-      if (!(line.includes("(**") || line.includes("( )"))) {
-        line = `${line} (**${todayWeekday()}**)`;
-      }
-      if (!line.includes(`(**${todayWeekday()}**)`) && !sectionIsTodaysTasks("TODAY’S TASKS")) {
-        // no-op; tasks can be non-today even if added. user can edit later.
-      }
-    }
+    if (!isTaskLine(line)) line = `— ${line} (**${todayWeekday()}**)`;
 
-    // Create id and place
     const id = stableId(line);
-    // Prevent duplicates by id
-    if (allTasks().some(t => t.id === id)) { elMeta.textContent = "Duplicate (same text)"; return; }
+    if (allTasks().some(t => t.id === id)) { elMeta.textContent = "Duplicate"; return; }
 
-    const targetTitle = data.sectionOrder.find(s => sectionIsTodaysTasks(s)) || data.sectionOrder[0];
+    // Add to TODAY’S TASKS section if it exists, else first section
+    const targetTitle = data.sectionOrder.find(s => (s||"").toLowerCase().includes("today") && (s||"").toLowerCase().includes("tasks")) || data.sectionOrder[0];
     const sec = data.sections.find(s => s.title === targetTitle);
-    if (!sec) { elMeta.textContent = "No section found"; return; }
+    if (!sec) return;
 
+    sec.tasks = sec.tasks || [];
     sec.tasks.push({
       id,
       line: line.trim(),
       done: false,
       order: sec.tasks.length,
       createdAt: Date.now(),
-      section: sec.title,
-      lane: lane
+      sectionTitle: sec.title,
+      lane
     });
 
     save(STORE_DATA, data);
     inputEl.value = "";
-    elMeta.textContent = `Added to ${lane} ✅`;
     render();
   };
 
-  // Render lanes
   const render = () => {
-    // Build lanes container once
-    if (!elLanes.dataset.ready) {
+    // Build lanes once
+    if (!elLanes.dataset.ready){
       elLanes.innerHTML = "";
       elLanes.appendChild(laneCard("CRESCENT"));
       elLanes.appendChild(laneCard("MPW"));
@@ -838,53 +773,46 @@ SATURDAY — 14 Mar 2026
     }
 
     const q = (elSearch.value || "").trim().toLowerCase();
-    const hideDone = elHide.checked;
+    const hide = elHide.checked;
     const sortMode = elSort.value;
 
-    const tasks = allTasks();
+    const tasks = allTasks().map(t => ({...t, lane: t.lane || inferLaneFromSection(t.sectionTitle)}));
 
-    // Badge counts per lane for today
+    // Update lane metas + lists
     LANES.forEach(lane => {
-      const badge = document.getElementById(`cc-badge-${lane}`);
-      const laneTasks = tasks.filter(t => (t.lane || inferLaneFromSection(t.sectionTitle)) === lane);
-      const todayLane = laneTasks.filter(isTodayTask);
-      const doneToday = todayLane.filter(t => t.done).length;
-      badge.textContent = `Today: ${doneToday}/${todayLane.length}`;
-    });
+      const laneTasks = tasks.filter(t => t.lane === lane);
+      const laneTodayAll = laneTasks.filter(isTodayTask);
+      const laneTodayDone = laneTodayAll.filter(t => t.done).length;
 
-    // For each lane: compute NEXT + TODAY
-    LANES.forEach(lane => {
+      const laneMeta = document.getElementById(`cc-lanemeta-${lane}`);
+      if (laneMeta) laneMeta.textContent = `Today: ${laneTodayDone}/${laneTodayAll.length}`;
+
+      // NEXT selection
       const nextUl = document.getElementById(`cc-next-${lane}`);
       const todayUl = document.getElementById(`cc-today-${lane}`);
-      const nextMeta = document.getElementById(`cc-next-meta-${lane}`);
-      const todayMeta = document.getElementById(`cc-today-meta-${lane}`);
+      const nextMeta = document.getElementById(`cc-nextmeta-${lane}`);
+      const todayMeta = document.getElementById(`cc-todaymeta-${lane}`);
 
       nextUl.innerHTML = "";
       todayUl.innerHTML = "";
 
-      const laneTasks = tasks
-        .map(t => ({...t, lane: t.lane || inferLaneFromSection(t.sectionTitle)}))
-        .filter(t => t.lane === lane);
+      let todayTasks = laneTodayAll;
 
-      let todayTasks = laneTasks.filter(isTodayTask);
-
-      // search / hide filters
-      if (q) todayTasks = todayTasks.filter(t => (t.line || "").toLowerCase().includes(q));
-      if (hideDone) todayTasks = todayTasks.filter(t => !t.done);
+      // filters
+      if (q) todayTasks = todayTasks.filter(t => (t.line||"").toLowerCase().includes(q));
+      if (hide) todayTasks = todayTasks.filter(t => !t.done);
 
       todayTasks = applySort(todayTasks, sortMode);
 
-      // NEXT: pinned if exists and in lane; else first not-done today task; else empty
+      // pinned NEXT if valid, else first undone, else first available
       const pinnedId = meta?.pinned?.[lane] || null;
       let nextTask = pinnedId ? laneTasks.find(t => t.id === pinnedId) : null;
-      if (nextTask && hideDone && nextTask.done) nextTask = null;
-      if (nextTask && q && !(nextTask.line || "").toLowerCase().includes(q)) nextTask = null;
 
-      if (!nextTask) {
-        nextTask = todayTasks.find(t => !t.done) || todayTasks[0] || null;
-      }
+      if (nextTask && hide && nextTask.done) nextTask = null;
+      if (nextTask && q && !(nextTask.line||"").toLowerCase().includes(q)) nextTask = null;
+      if (!nextTask) nextTask = todayTasks.find(t => !t.done) || todayTasks[0] || null;
 
-      if (nextTask) {
+      if (nextTask){
         nextUl.appendChild(taskRow(nextTask, lane));
         nextMeta.textContent = nextTask.done ? "Complete ✅" : "Locked";
       } else {
@@ -895,18 +823,14 @@ SATURDAY — 14 Mar 2026
         nextMeta.textContent = "—";
       }
 
-      // TODAY list
       todayTasks.forEach(t => todayUl.appendChild(taskRow(t, lane)));
-      const totalLaneToday = laneTasks.filter(isTodayTask).length;
-      const doneLaneToday = laneTasks.filter(isTodayTask).filter(t => t.done).length;
-      todayMeta.textContent = `${doneLaneToday}/${totalLaneToday} ✅`;
-
+      todayMeta.textContent = `${laneTodayDone}/${laneTodayAll.length}`;
     });
 
     updateHud();
+    renderEvents();
   };
 
-  // NEW DAY: archives completed tasks (local), clears pinned if completed, updates date label
   const newDay = () => {
     const arch = load(STORE_ARCH, []);
     const from = meta.dateLabel || dateLabel(now());
@@ -916,33 +840,28 @@ SATURDAY — 14 Mar 2026
     data.sections.forEach(sec => {
       if (sec.title === "TOP") return;
       const keep = [];
-      sec.tasks.forEach(t => {
-        if (t.done) completed.push({ id: t.id, line: t.line, lane: t.lane, section: sec.title });
+      (sec.tasks || []).forEach(t => {
+        if (t.done) completed.push({ id:t.id, line:t.line, lane:t.lane, section: sec.title });
         else keep.push(t);
       });
       sec.tasks = keep;
     });
 
-    // Clear pinned if it no longer exists
-    const remainingIds = new Set(allTasks().map(t => t.id));
-    LANES.forEach(l => {
-      if (meta.pinned && meta.pinned[l] && !remainingIds.has(meta.pinned[l])) meta.pinned[l] = null;
-    });
+    // clear pins that no longer exist
+    const remaining = new Set(allTasks().map(t=>t.id));
+    LANES.forEach(l => { if (meta.pinned && meta.pinned[l] && !remaining.has(meta.pinned[l])) meta.pinned[l] = null; });
 
     meta.dateLabel = to;
     save(STORE_META, meta);
 
     arch.push({ rolledFrom: from, rolledTo: to, completed });
     save(STORE_ARCH, arch);
-
     save(STORE_DATA, data);
+
     exportWrap.classList.add("cc-hidden");
-    elMeta.textContent = "NEW DAY ✅ (archived locally)";
     render();
   };
 
-  // Backup export (optional): builds a paste-ready markdown BODY.
-  // NOTE: This is a backup/snapshot. Daily use does not require this.
   const backupExport = () => {
     const out = [];
     out.push("🌙 CRESCENT — TASK CONSOLE  ");
@@ -954,13 +873,13 @@ SATURDAY — 14 Mar 2026
     out.push("---");
     out.push("");
 
-    // Export sections in original order; tasks marked ✅ if done
     data.sectionOrder.forEach(title => {
       const sec = data.sections.find(s => s.title === title);
       if (!sec) return;
-      out.push(`## ${title}`);
+      if ((sec.title || "").toLowerCase().includes("events")) return;
 
-      const tasks = applySort(sec.tasks.map(t => ({...t})), "system");
+      out.push(`## ${sec.title}`);
+      const tasks = applySort((sec.tasks || []).map(t=>({...t})), "system");
       tasks.forEach(t => {
         const s = (t.line || "").trim();
         if (t.done) {
@@ -971,7 +890,6 @@ SATURDAY — 14 Mar 2026
             out.push(`✅ — ${rest}  `);
           }
         } else {
-          // ensure not ✅
           if (s.startsWith("✅")) {
             const idx = s.indexOf(" — ");
             const rest = idx >= 0 ? s.slice(idx+3) : s.replace(/^✅\s*/,"");
@@ -979,11 +897,14 @@ SATURDAY — 14 Mar 2026
           } else out.push(s + "  ");
         }
       });
-
       out.push("");
       out.push("---");
       out.push("");
     });
+
+    // events
+    out.push("## 📅 EVENTS");
+    (data.events || []).forEach(e => out.push(`${e}  `));
 
     while (out.length && out[out.length-1].trim()==="") out.pop();
     const txt = out.join("\n");
@@ -996,12 +917,8 @@ SATURDAY — 14 Mar 2026
   const copyBackup = async () => {
     const txt = backupExport();
     exportText.focus(); exportText.select();
-    try {
-      await navigator.clipboard.writeText(txt);
-      elMeta.textContent = "Copied backup ✅";
-    } catch {
-      elMeta.textContent = "Select + Copy (Ctrl/Cmd+C) ✅";
-    }
+    try { await navigator.clipboard.writeText(txt); }
+    catch {}
   };
 
   const resetLocal = () => {
@@ -1011,36 +928,22 @@ SATURDAY — 14 Mar 2026
     data = ensureData();
     meta = load(STORE_META, { dateLabel: dateLabel(now()), pinned:{CRESCENT:null,MPW:null,PERSONAL:null} });
     exportWrap.classList.add("cc-hidden");
-    elMeta.textContent = "Reset local state ✅";
-    // force lane container rebuild
     elLanes.dataset.ready = "";
     render();
   };
 
-  // Tabs wiring
-  const tabs = Array.from(document.querySelectorAll(".cc-tab"));
-  const showView = (name) => {
-    tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.view === name ? "true" : "false"));
-    document.querySelectorAll(".cc-view").forEach(v => v.classList.remove("active"));
-    const target = document.getElementById(`cc-view-${name}`);
-    if (target) target.classList.add("active");
-  };
-  tabs.forEach(t => t.addEventListener("click", () => showView(t.dataset.view)));
-
-  // Events
-  elSort.addEventListener("change", render);
-  elHide.addEventListener("change", render);
-  elSearch.addEventListener("input", render);
-
+  // Wire controls
   btnNewDay.addEventListener("click", newDay);
   btnExport.addEventListener("click", backupExport);
   btnCopy.addEventListener("click", copyBackup);
   btnReset.addEventListener("click", resetLocal);
 
-  // Initial
-  // Keep date label always current unless you want it fixed: we set it to real-world date on load.
+  elSort.addEventListener("change", render);
+  elHide.addEventListener("change", render);
+  elSearch.addEventListener("input", render);
+
+  // Ensure meta exists
   meta.dateLabel = meta.dateLabel || dateLabel(now());
-  // If meta date is stale (different from today), keep it — NEW DAY is the explicit roll.
   save(STORE_META, meta);
 
   render();
