@@ -4,106 +4,120 @@ title: Task Console
 permalink: /systems/task-console/
 ---
 
-<!--
-INTERACTIVE TASK CONSOLE (Layer 2)
-
-How it works:
-- Tasks are detected from the rendered markdown lines that contain " — " and "(**" or "( )"
-- Checking a task stores state in localStorage (browser-only)
-- EXPORT creates paste-ready markdown where completed tasks become: "✅ — Task (...)" per your rules
-- To persist canonically: export -> paste into this file -> commit
-
-No automation / no GitHub write-back.
--->
-
 <style>
-  /* Crescent Task Console — minimal, command-centre */
-  #tc-controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    align-items: center;
-    margin: 14px 0 18px;
-    padding: 10px 12px;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
-    background: rgba(255,255,255,0.03);
+  /* Crescent OS — Task Console UI */
+  .tc-wrap { margin-top: 10px; }
+  .tc-bar {
+    display: flex; flex-wrap: wrap; gap: 10px; align-items: center;
+    padding: 12px 12px; border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 12px; background: rgba(0,0,0,0.03);
   }
-  #tc-controls .tc-btn {
-    appearance: none;
-    border: 1px solid rgba(255,255,255,0.18);
-    background: rgba(255,255,255,0.06);
-    color: inherit;
-    padding: 8px 10px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
+  .tc-bar input[type="text"], .tc-bar select {
+    padding: 8px 10px; border-radius: 10px;
+    border: 1px solid rgba(0,0,0,0.18); background: white;
+    min-width: 170px;
   }
-  #tc-controls .tc-btn:hover { background: rgba(255,255,255,0.10); }
-  #tc-controls .tc-meta {
-    margin-left: auto;
-    opacity: 0.85;
-    font-size: 0.95em;
+  .tc-btn {
+    appearance: none; border: 1px solid rgba(0,0,0,0.18);
+    background: white; border-radius: 10px;
+    padding: 8px 10px; cursor: pointer; font-weight: 700;
   }
-  .tc-tasklist { margin: 6px 0 0; padding: 0; }
-  .tc-task {
-    list-style: none;
-    display: grid;
-    grid-template-columns: 22px 1fr;
-    gap: 10px;
-    align-items: start;
-    padding: 6px 0;
-    border-bottom: 1px dashed rgba(255,255,255,0.10);
-  }
-  .tc-task:last-child { border-bottom: none; }
-  .tc-task input { margin-top: 2px; transform: translateY(1px); }
-  .tc-task .tc-label { white-space: pre-wrap; }
-  .tc-task.tc-done .tc-label { opacity: 0.6; text-decoration: line-through; }
-  .tc-hidden { display: none !important; }
+  .tc-btn:hover { background: rgba(0,0,0,0.04); }
+  .tc-meta { margin-left: auto; opacity: 0.75; font-size: 0.95em; }
 
-  /* Export modal */
-  #tc-export {
-    margin-top: 10px;
-    padding: 10px 12px;
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: 10px;
-    background: rgba(255,255,255,0.03);
+  .tc-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+  .tc-section {
+    border: 1px solid rgba(0,0,0,0.10);
+    border-radius: 14px;
+    background: rgba(0,0,0,0.02);
+    padding: 10px 12px 6px;
   }
-  #tc-export textarea {
-    width: 100%;
-    min-height: 260px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid rgba(255,255,255,0.18);
-    background: rgba(0,0,0,0.25);
-    color: inherit;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-    font-size: 12.5px;
-    line-height: 1.35;
+  .tc-title { display:flex; gap: 10px; align-items:center; margin: 4px 0 10px; }
+  .tc-title h3 { margin: 0; font-size: 1.05rem; }
+  .tc-count { margin-left:auto; opacity:0.7; font-size:0.95em; }
+
+  .tc-tasklist { list-style: none; padding: 0; margin: 0; }
+  .tc-task {
+    display: grid; grid-template-columns: 22px 1fr; gap: 10px;
+    padding: 8px 0; border-top: 1px dashed rgba(0,0,0,0.14);
+    align-items: start;
   }
-  #tc-export .tc-export-head {
-    display: flex;
-    gap: 8px;
-    align-items: center;
-    margin-bottom: 8px;
+  .tc-task:first-child { border-top: none; }
+  .tc-task input { transform: translateY(2px); }
+  .tc-line { white-space: pre-wrap; line-height: 1.25; }
+  .tc-done .tc-line { opacity: 0.55; text-decoration: line-through; }
+
+  .tc-chiprow { margin-top: 4px; display:flex; flex-wrap:wrap; gap: 6px; }
+  .tc-chip {
+    font-size: 0.78em; padding: 2px 8px; border-radius: 999px;
+    border: 1px solid rgba(0,0,0,0.14); opacity: 0.85;
+    background: rgba(255,255,255,0.8);
   }
+
+  .tc-export {
+    margin-top: 14px;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 14px;
+    padding: 12px;
+    background: rgba(0,0,0,0.02);
+  }
+  .tc-exporthead { display:flex; gap: 10px; align-items:center; margin-bottom: 10px; }
+  .tc-export textarea {
+    width: 100%; min-height: 260px;
+    border-radius: 12px; padding: 10px;
+    border: 1px solid rgba(0,0,0,0.18);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
+    font-size: 12.5px; line-height: 1.35;
+  }
+
+  /* Source block: visible fallback if JS fails */
+  #tc-source { margin-top: 16px; }
+  .tc-hidden { display: none !important; }
 </style>
 
-<div id="tc-controls" class="tc-hidden">
-  <button class="tc-btn" id="tc-export-btn" type="button">EXPORT MARKDOWN</button>
-  <button class="tc-btn" id="tc-copy-btn" type="button">COPY EXPORT</button>
-  <button class="tc-btn" id="tc-clear-btn" type="button">CLEAR CHECKS</button>
-  <span class="tc-meta" id="tc-meta">Ready</span>
-</div>
+<div class="tc-wrap">
+  <div class="tc-bar" id="tc-bar">
+    <button class="tc-btn" type="button" id="tc-export-btn">EXPORT</button>
+    <button class="tc-btn" type="button" id="tc-copy-btn">COPY</button>
 
-<div id="tc-export" class="tc-hidden">
-  <div class="tc-export-head">
-    <strong>Export (paste back into <code>systems/task-console/index.md</code> body)</strong>
+    <label style="display:flex; align-items:center; gap:8px;">
+      <span style="font-weight:700;">Sort</span>
+      <select id="tc-sort">
+        <option value="system" selected>System (In Progress → Key Order → A-Z)</option>
+        <option value="az">A-Z</option>
+      </select>
+    </label>
+
+    <label style="display:flex; align-items:center; gap:8px;">
+      <input type="checkbox" id="tc-hide-done" />
+      <span style="font-weight:700;">Hide ✅</span>
+    </label>
+
+    <input type="text" id="tc-search" placeholder="Search tasks…" />
+
+    <span class="tc-meta" id="tc-meta">Loading…</span>
   </div>
-  <textarea id="tc-export-text" spellcheck="false"></textarea>
-</div>
 
-<div id="tc-body" markdown="1">
+  <div class="tc-bar" style="margin-top:10px;">
+    <strong>Quick Add</strong>
+    <select id="tc-add-section"></select>
+    <input type="text" id="tc-add-text" placeholder="Type task text (e.g. 🔴🟠 — Gym schedule (**Saturday**))" style="flex:1; min-width:260px;" />
+    <button class="tc-btn" type="button" id="tc-add-btn">ADD</button>
+    <button class="tc-btn" type="button" id="tc-clear-local">CLEAR LOCAL</button>
+  </div>
+
+  <div class="tc-grid" id="tc-app"></div>
+
+  <div class="tc-export tc-hidden" id="tc-export">
+    <div class="tc-exporthead">
+      <strong>Export (paste back into <code>systems/task-console/index.md</code> body)</strong>
+      <span style="margin-left:auto; opacity:0.7;" id="tc-export-meta"></span>
+    </div>
+    <textarea id="tc-export-text" spellcheck="false"></textarea>
+  </div>
+
+  <!-- CANONICAL SOURCE (fallback) -->
+  <div id="tc-source" markdown="1">
 
 🌙 CRESCENT — TASK CONSOLE  
 SATURDAY — 14 Mar 2026
@@ -183,206 +197,371 @@ SATURDAY — 14 Mar 2026
 ## 📅 EVENTS
 — March OKR Catch Up w/ Cam & Thelma (**Wednesday 8 April : 10:45am – 11:15am**)
 
+  </div>
 </div>
 
 <script>
 (() => {
-  const STORAGE_KEY = "crescent.taskconsole.v1";
-  const body = document.getElementById("tc-body");
-  const controls = document.getElementById("tc-controls");
+  const KEY_ORDER = ["👁️‍🗨️","⚠️","🔴","⚪️","🟢","🟠","🟣","🟡","⚫️","🔵","◻️"];
+  const STORAGE_KEY = "crescent.tc.state.v2";
+  const ADD_KEY = "crescent.tc.added.v1";
+
+  const norm = (s) => (s || "").replace(/\uFE0F/g, ""); // remove variation selectors
+  const keyRank = (line) => {
+    const n = norm(line);
+    // In Progress first (special)
+    if (n.includes("(**In Progress**)")) return -1;
+    // Find earliest key in order that appears in the line
+    for (let i = 0; i < KEY_ORDER.length; i++) {
+      if (n.includes(norm(KEY_ORDER[i]))) return i;
+    }
+    return 999; // none
+  };
+
+  const source = document.getElementById("tc-source");
+  const app = document.getElementById("tc-app");
+  const meta = document.getElementById("tc-meta");
+  const sortSel = document.getElementById("tc-sort");
+  const hideDone = document.getElementById("tc-hide-done");
+  const search = document.getElementById("tc-search");
+
   const exportWrap = document.getElementById("tc-export");
   const exportText = document.getElementById("tc-export-text");
-  const meta = document.getElementById("tc-meta");
-
+  const exportMeta = document.getElementById("tc-export-meta");
   const btnExport = document.getElementById("tc-export-btn");
   const btnCopy = document.getElementById("tc-copy-btn");
-  const btnClear = document.getElementById("tc-clear-btn");
 
-  if (!body) return;
+  const addSection = document.getElementById("tc-add-section");
+  const addText = document.getElementById("tc-add-text");
+  const btnAdd = document.getElementById("tc-add-btn");
+  const btnClearLocal = document.getElementById("tc-clear-local");
 
-  // Load saved state
-  const loadState = () => {
-    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}"); }
-    catch { return {}; }
-  };
-  const saveState = (state) => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
-  };
+  if (!source || !app) return;
 
-  // A stable key for a task line (text-only)
-  const keyOf = (line) => {
-    // Remove leading checkbox markers + trim
-    return line.replace(/^✅\s*—\s*/,"").trim();
-  };
-
-  // Detect whether a line is a task
   const isTaskLine = (line) => {
-    const s = line.trim();
+    const s = (line || "").trim();
     if (!s) return false;
-    // Must contain " — " (your canonical task delimiter)
+    // Must contain your delimiter
     if (!s.includes(" — ")) return false;
-    // Must include a date/slot marker "(**" or "( )"
+    // Must contain "(**" or "( )" markers (your dates/slots)
     if (!(s.includes("(**") || s.includes("( )"))) return false;
+    // Exclude headings
+    if (s.startsWith("#")) return false;
     return true;
   };
 
-  // Parse prefix + task label portion
   const parseLine = (line) => {
-    const s = line.trim();
+    const s = (line || "").trim();
     const done = s.startsWith("✅");
-    // Split on first " — "
     const idx = s.indexOf(" — ");
     const prefix = idx >= 0 ? s.slice(0, idx) : "";
     const rest = idx >= 0 ? s.slice(idx + 3) : s;
     return { raw: line, done, prefix, rest };
   };
 
-  const state = loadState();
-
-  // Convert rendered markdown paragraphs that contain task lines into interactive lists.
-  const paras = Array.from(body.querySelectorAll("p"));
-  let taskCount = 0;
-
-  paras.forEach(p => {
-    const lines = (p.innerText || "").split("\n").map(x => x.trimEnd());
-    const taskLines = lines.filter(isTaskLine);
-    if (taskLines.length === 0) return;
-
-    // Build UI list
-    const ul = document.createElement("ul");
-    ul.className = "tc-tasklist";
-
-    taskLines.forEach(line => {
-      const { done, rest } = parseLine(line);
-      const k = keyOf(line);
-
-      const li = document.createElement("li");
-      li.className = "tc-task";
-
-      const cb = document.createElement("input");
-      cb.type = "checkbox";
-
-      // Effective done: file-marked OR saved override
-      const saved = state[k];
-      const effectiveDone = (typeof saved === "boolean") ? saved : done;
-      cb.checked = effectiveDone;
-      if (effectiveDone) li.classList.add("tc-done");
-
-      cb.addEventListener("change", () => {
-        state[k] = cb.checked;
-        saveState(state);
-        li.classList.toggle("tc-done", cb.checked);
-        meta.textContent = `Saved ✅ (${countDone()}/${taskCount})`;
-      });
-
-      const label = document.createElement("div");
-      label.className = "tc-label";
-      label.textContent = line; // keep full line visible
-
-      li.appendChild(cb);
-      li.appendChild(label);
-      ul.appendChild(li);
-
-      taskCount++;
-    });
-
-    // Hide original paragraph and insert list after it
-    p.classList.add("tc-hidden");
-    p.insertAdjacentElement("afterend", ul);
-  });
-
-  const countDone = () => {
-    let done = 0;
-    // done if local state says true OR label line starts with ✅
-    const all = Array.from(body.querySelectorAll(".tc-task"));
-    all.forEach(li => {
-      const cb = li.querySelector("input[type=checkbox]");
-      if (cb && cb.checked) done++;
-    });
-    return done;
+  const stableKey = (line) => {
+    // Stable identity: strip leading ✅ and whitespace
+    return norm((line || "").trim().replace(/^✅\s*—\s*/,""));
   };
 
-  // Build export markdown body (not front matter)
-  const buildExportBody = () => {
-    // Export based on the ORIGINAL markdown text inside #tc-body,
-    // but swap any task line prefix to ✅ if checked.
-    const text = body.innerText.replace(/\r\n/g, "\n");
-    const lines = text.split("\n");
+  const loadJSON = (k, fallback) => {
+    try { return JSON.parse(localStorage.getItem(k) || JSON.stringify(fallback)); }
+    catch { return fallback; }
+  };
+  const saveJSON = (k, v) => localStorage.setItem(k, JSON.stringify(v));
 
-    const doneKeys = new Set();
-    // Collect checked tasks by reading visible labels from UI
-    const labels = Array.from(body.querySelectorAll(".tc-task .tc-label"));
-    labels.forEach(lab => {
-      const line = (lab.textContent || "").trim();
-      if (!isTaskLine(line)) return;
-      const k = keyOf(line);
-      const cb = lab.parentElement.querySelector("input[type=checkbox]");
-      if (cb && cb.checked) doneKeys.add(k);
+  // Build model from source text
+  const rawText = source.innerText.replace(/\r\n/g, "\n");
+  const lines = rawText.split("\n");
+
+  // Sections: keyed by heading text
+  const sections = [];
+  let current = { title: "TOP", lines: [] };
+
+  for (const line of lines) {
+    if (line.trim().startsWith("## ")) {
+      // push previous
+      sections.push(current);
+      current = { title: line.trim().replace(/^##\s*/,""), lines: [line] };
+    } else {
+      current.lines.push(line);
+    }
+  }
+  sections.push(current);
+
+  // Extract tasks per section, keep non-task content
+  const state = loadJSON(STORAGE_KEY, {});
+  const added = loadJSON(ADD_KEY, {}); // { "Section Title": ["task line", ...] }
+
+  const model = sections.map(sec => {
+    const tasks = [];
+    const nonTasks = [];
+    sec.lines.forEach(l => {
+      if (isTaskLine(l)) {
+        const p = parseLine(l);
+        const k = stableKey(l);
+        // local override only affects UI + export marking complete
+        const localDone = (typeof state[k] === "boolean") ? state[k] : p.done;
+        tasks.push({ line: l.trim(), key: k, done: localDone, baseDone: p.done, section: sec.title });
+      } else {
+        nonTasks.push(l);
+      }
     });
 
-    const out = lines.map(line => {
-      if (!isTaskLine(line)) return line;
-      const k = keyOf(line);
-      if (!doneKeys.has(k)) {
-        // If it was marked ✅ in file but user unchecked, restore original by removing ✅
-        // (keeps original prefix if present)
-        const s = line.trim();
-        if (s.startsWith("✅")) {
-          // try to reconstruct as "— rest" if no key remains; fallback to rest only
-          const idx = s.indexOf(" — ");
-          const rest = idx >= 0 ? s.slice(idx + 3) : s.replace(/^✅\s*/,"");
-          return "— " + rest;
+    const extra = (added[sec.title] || []).map(l => {
+      const k = stableKey(l);
+      const p = parseLine(l);
+      const localDone = (typeof state[k] === "boolean") ? state[k] : p.done;
+      return { line: l.trim(), key: k, done: localDone, baseDone: p.done, section: sec.title, added: true };
+    });
+
+    return { title: sec.title, nonTasks, tasks: tasks.concat(extra) };
+  });
+
+  // Populate section dropdown for Quick Add (skip TOP)
+  const sectionTitles = model.map(m => m.title).filter(t => t !== "TOP");
+  addSection.innerHTML = "";
+  sectionTitles.forEach(t => {
+    const opt = document.createElement("option");
+    opt.value = t; opt.textContent = t;
+    addSection.appendChild(opt);
+  });
+
+  const applySort = (tasks, mode) => {
+    const copy = [...tasks];
+    if (mode === "az") {
+      copy.sort((a,b) => a.line.localeCompare(b.line));
+      return copy;
+    }
+    // system: In Progress → Key order → A-Z
+    copy.sort((a,b) => {
+      const ra = keyRank(a.line), rb = keyRank(b.line);
+      if (ra !== rb) return ra - rb;
+      return a.line.localeCompare(b.line);
+    });
+    return copy;
+  };
+
+  const render = () => {
+    const q = (search.value || "").trim().toLowerCase();
+    const mode = sortSel.value;
+    const hide = hideDone.checked;
+
+    app.innerHTML = "";
+    let total = 0, doneCount = 0;
+
+    model.forEach(sec => {
+      // We only render real sections (skip TOP)
+      if (sec.title === "TOP") return;
+
+      let tasks = applySort(sec.tasks, mode);
+
+      if (q) tasks = tasks.filter(t => t.line.toLowerCase().includes(q));
+      if (hide) tasks = tasks.filter(t => !t.done);
+
+      total += sec.tasks.length;
+      doneCount += sec.tasks.filter(t => t.done).length;
+
+      const wrap = document.createElement("div");
+      wrap.className = "tc-section";
+
+      const title = document.createElement("div");
+      title.className = "tc-title";
+
+      const h = document.createElement("h3");
+      h.textContent = sec.title;
+
+      const c = document.createElement("div");
+      c.className = "tc-count";
+      c.textContent = `${sec.tasks.filter(t => t.done).length}/${sec.tasks.length} ✅`;
+
+      title.appendChild(h);
+      title.appendChild(c);
+
+      const ul = document.createElement("ul");
+      ul.className = "tc-tasklist";
+
+      tasks.forEach(t => {
+        const li = document.createElement("li");
+        li.className = "tc-task" + (t.done ? " tc-done" : "");
+
+        const cb = document.createElement("input");
+        cb.type = "checkbox";
+        cb.checked = !!t.done;
+        cb.addEventListener("change", () => {
+          t.done = cb.checked;
+          state[t.key] = cb.checked;
+          saveJSON(STORAGE_KEY, state);
+          render();
+          meta.textContent = `Saved ✅ (${countDoneAll()}/${countAll()})`;
+        });
+
+        const box = document.createElement("div");
+        const line = document.createElement("div");
+        line.className = "tc-line";
+        line.textContent = t.line;
+
+        // chips
+        const chips = document.createElement("div");
+        chips.className = "tc-chiprow";
+
+        if (t.line.includes("(**In Progress**)")) {
+          const chip = document.createElement("span");
+          chip.className = "tc-chip";
+          chip.textContent = "In Progress";
+          chips.appendChild(chip);
         }
-        return line;
-      }
+        // key chips in order
+        KEY_ORDER.forEach(k => {
+          if (norm(t.line).includes(norm(k))) {
+            const chip = document.createElement("span");
+            chip.className = "tc-chip";
+            chip.textContent = k;
+            chips.appendChild(chip);
+          }
+        });
+        if (t.added) {
+          const chip = document.createElement("span");
+          chip.className = "tc-chip";
+          chip.textContent = "Local";
+          chips.appendChild(chip);
+        }
 
-      // Mark complete per your rule: "✅ — Task (...)"
-      const s = line.trim();
-      const idx = s.indexOf(" — ");
-      const rest = idx >= 0 ? s.slice(idx + 3) : s;
-      return "✅ — " + rest;
-    }).join("\n");
+        box.appendChild(line);
+        if (chips.childNodes.length) box.appendChild(chips);
 
-    return out.trimEnd();
+        li.appendChild(cb);
+        li.appendChild(box);
+        ul.appendChild(li);
+      });
+
+      wrap.appendChild(title);
+      wrap.appendChild(ul);
+      app.appendChild(wrap);
+    });
+
+    meta.textContent = `Ready ✅ (${countDoneAll()}/${countAll()})`;
+  };
+
+  const countAll = () => model.reduce((acc, s) => acc + (s.title === "TOP" ? 0 : s.tasks.length), 0);
+  const countDoneAll = () => model.reduce((acc, s) => acc + (s.title === "TOP" ? 0 : s.tasks.filter(t=>t.done).length), 0);
+
+  const buildExport = () => {
+    // Rebuild a clean markdown body with the same headings in the same order.
+    // Completed tasks get ✅ prefix (we do NOT remove existing ✅).
+    const out = [];
+
+    // Pull the TOP section non-task text verbatim (header block above first ##)
+    const top = model.find(m => m.title === "TOP");
+    if (top) {
+      top.nonTasks.forEach(l => out.push(l));
+    }
+
+    // For each section, output heading + tasks in current sort mode
+    const mode = sortSel.value;
+    model.forEach(sec => {
+      if (sec.title === "TOP") return;
+
+      // Ensure there's a blank line before section heading
+      if (out.length && out[out.length - 1].trim() !== "") out.push("");
+      // Print heading as "## ..."
+      out.push(`## ${sec.title}`);
+
+      // If the original section had separators like --- right after heading, preserve by keeping original nonTasks lines that were in-section
+      // But we rebuild simple: tasks only. (Still paste-ready, still your structure.)
+      // Add tasks:
+      const tasks = applySort(sec.tasks, mode);
+      tasks.forEach(t => {
+        const s = t.line.trim();
+        if (t.done) {
+          // ensure ✅ format: ✅ — rest after first " — "
+          if (s.startsWith("✅")) {
+            out.push(s + "  ");
+          } else {
+            const idx = s.indexOf(" — ");
+            const rest = idx >= 0 ? s.slice(idx + 3) : s;
+            out.push(`✅ — ${rest}  `);
+          }
+        } else {
+          out.push(s + "  ");
+        }
+      });
+
+      // Section separator if your original uses --- widely (keep consistent feel)
+      out.push("");
+      out.push("---");
+      out.push("");
+    });
+
+    // Remove the last separator clutter (optional cleanup)
+    while (out.length && out[out.length - 1].trim() === "") out.pop();
+    return out.join("\n");
   };
 
   const showExport = () => {
-    const out = buildExportBody();
-    exportText.value = out;
+    const txt = buildExport();
+    exportText.value = txt;
     exportWrap.classList.remove("tc-hidden");
-    meta.textContent = `Export ready ✅ (${countDone()}/${taskCount})`;
+    exportMeta.textContent = `Tasks: ${countAll()} | Done: ${countDoneAll()}`;
   };
 
   const copyExport = async () => {
-    if (exportWrap.classList.contains("tc-hidden")) showExport();
+    showExport();
     exportText.focus();
     exportText.select();
     try {
       await navigator.clipboard.writeText(exportText.value);
-      meta.textContent = "Copied export to clipboard ✅";
+      meta.textContent = "Copied ✅";
     } catch {
-      // Fallback: selection already done
-      meta.textContent = "Select + copy (Ctrl/Cmd+C) ✅";
+      meta.textContent = "Select + Copy (Ctrl/Cmd+C) ✅";
     }
   };
 
-  const clearChecks = () => {
-    // Clear saved state and uncheck all (does NOT rewrite file until export+commit)
-    localStorage.removeItem(STORAGE_KEY);
-    const cbs = Array.from(body.querySelectorAll(".tc-task input[type=checkbox]"));
-    cbs.forEach(cb => { cb.checked = false; cb.dispatchEvent(new Event("change")); });
-    meta.textContent = "Cleared ✅";
-  };
-
-  // Wire buttons
   btnExport.addEventListener("click", showExport);
   btnCopy.addEventListener("click", copyExport);
-  btnClear.addEventListener("click", clearChecks);
 
-  // If we found tasks, show controls
-  if (taskCount > 0) {
-    controls.classList.remove("tc-hidden");
-    meta.textContent = `Loaded ✅ (${countDone()}/${taskCount})`;
-  }
+  sortSel.addEventListener("change", render);
+  hideDone.addEventListener("change", render);
+  search.addEventListener("input", render);
+
+  btnAdd.addEventListener("click", () => {
+    const sec = addSection.value;
+    const text = (addText.value || "").trim();
+    if (!sec || !text) {
+      meta.textContent = "Type task + choose section";
+      return;
+    }
+    // Basic safety: must look like a task line
+    if (!isTaskLine(text)) {
+      meta.textContent = "Add format: must contain ' — ' + (**) or ( )";
+      return;
+    }
+    added[sec] = added[sec] || [];
+    added[sec].push(text);
+    saveJSON(ADD_KEY, added);
+
+    // Add into model live too
+    const target = model.find(m => m.title === sec);
+    if (target) {
+      const k = stableKey(text);
+      const p = parseLine(text);
+      const localDone = (typeof state[k] === "boolean") ? state[k] : p.done;
+      target.tasks.push({ line: text, key: k, done: localDone, baseDone: p.done, section: sec, added: true });
+    }
+
+    addText.value = "";
+    render();
+    meta.textContent = "Added (local) ✅";
+  });
+
+  btnClearLocal.addEventListener("click", () => {
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(ADD_KEY);
+    meta.textContent = "Cleared local state ✅ (refresh page)";
+  });
+
+  // If JS is working, hide the raw source so you only see the interactive UI
+  source.classList.add("tc-hidden");
+  render();
 })();
 </script>
