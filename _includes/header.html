@@ -1,16 +1,28 @@
 <header class="site-header" role="banner">
-  <div class="wrapper" style="display:flex; align-items:center; justify-content:space-between;">
+  <div class="wrapper"
+       style="display:flex; align-items:center; justify-content:space-between; gap:16px;">
 
-    <!-- Brand title (NOT clickable) -->
-    <div aria-label="Crescent OS"
-         style="font-weight:600; letter-spacing:0.2px;">
+    <!-- Brand (NOT a link) — forced visible -->
+    <div id="crescent-brand"
+         style="display:block !important;
+                visibility:visible !important;
+                opacity:1 !important;
+                color:#111 !important;
+                font-weight:700 !important;
+                font-size:16px !important;
+                line-height:1.2 !important;
+                white-space:nowrap !important;
+                margin:0 !important;
+                padding:0 !important;">
       🌙 Crescent OS
     </div>
 
-    <!-- Header links (ONLY these) -->
-    <nav class="site-nav" aria-label="Primary navigation">
-      <a href="/" style="margin-left:16px; text-decoration:none;">Home</a>
-      <a href="/systems/task-console/" style="margin-left:16px; text-decoration:none;">Task Console</a>
+    <!-- Nav (ONLY these) -->
+    <nav class="site-nav"
+         aria-label="Primary navigation"
+         style="display:flex; align-items:center; gap:18px; margin-left:auto;">
+      <a href="{{ '/' | relative_url }}" style="text-decoration:none;">Home</a>
+      <a href="{{ '/systems/task-console/' | relative_url }}" style="text-decoration:none;">Task Console</a>
     </nav>
 
   </div>
