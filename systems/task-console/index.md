@@ -21,23 +21,32 @@ permalink: /systems/task-console/
     --green2:#16a34a;
   }
 
-  /* Wrapper */
   .cc-wrap{ margin-top: 6px; }
+  .cc-title{ margin: 0 0 6px; font-weight: 1100; letter-spacing: 0.2px; }
+  .cc-subtitle{ margin: 0 0 12px; color: var(--muted); font-weight: 850; font-size: 0.95em; }
 
-  /* Title */
-  .cc-title{
-    margin: 0 0 6px;
-    font-weight: 1100;
-    letter-spacing: 0.2px;
-  }
-  .cc-subtitle{
+  /* Tabs */
+  .cc-tabs{
+    display:flex; gap:8px; flex-wrap:wrap; align-items:center;
     margin: 0 0 12px;
-    color: var(--muted);
-    font-weight: 850;
-    font-size: 0.95em;
+  }
+  .cc-tab{
+    appearance:none;
+    border:1px solid rgba(0,0,0,0.14);
+    background:#fff;
+    border-radius: 999px;
+    padding: 7px 10px;
+    cursor:pointer;
+    font-weight: 1000;
+    opacity: 0.85;
+  }
+  .cc-tab[aria-selected="true"]{
+    opacity: 1;
+    border-color: rgba(0,0,0,0.22);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06);
   }
 
-  /* Minimal status line (keep it quiet) */
+  /* Status line */
   .cc-status{
     display:flex; flex-wrap:wrap; gap:10px; align-items:center;
     margin: 0 0 12px;
@@ -68,7 +77,11 @@ permalink: /systems/task-console/
     font-size: 0.92em;
   }
 
-  /* Lanes (focal point) */
+  /* Views */
+  .cc-view{ display:none; }
+  .cc-view.active{ display:block; }
+
+  /* Lanes (focal) */
   .cc-lanes{
     display:grid;
     grid-template-columns: 1fr;
@@ -99,19 +112,9 @@ permalink: /systems/task-console/
     background: var(--personal);
     box-shadow: 0 0 0 3px rgba(245,158,11,0.18);
   }
-  .cc-lanetitle{
-    margin:0;
-    font-weight: 1150;
-    letter-spacing: 0.2px;
-  }
-  .cc-lanemeta{
-    margin-left:auto;
-    font-weight: 950;
-    color: var(--muted);
-    font-size: 0.92em;
-  }
+  .cc-lanetitle{ margin:0; font-weight: 1150; letter-spacing: 0.2px; }
+  .cc-lanemeta{ margin-left:auto; font-weight: 950; color: var(--muted); font-size: 0.92em; }
 
-  /* NEXT / TODAY blocks */
   .cc-block{
     border:1px solid rgba(0,0,0,0.10);
     border-radius: 14px;
@@ -123,19 +126,9 @@ permalink: /systems/task-console/
     display:flex; gap:8px; align-items:center;
     margin-bottom: 8px;
   }
-  .cc-blockhead h4{
-    margin:0;
-    font-weight: 1150;
-    font-size: 0.95rem;
-  }
-  .cc-blockmeta{
-    margin-left:auto;
-    font-weight: 950;
-    color: var(--muted);
-    font-size: 0.9em;
-  }
+  .cc-blockhead h4{ margin:0; font-weight: 1150; font-size: 0.95rem; }
+  .cc-blockmeta{ margin-left:auto; font-weight: 950; color: var(--muted); font-size: 0.9em; }
 
-  /* Tasks */
   .cc-tasklist{ list-style:none; padding:0; margin:0; }
   .cc-task{
     display:grid;
@@ -150,7 +143,6 @@ permalink: /systems/task-console/
   .cc-line{ white-space: pre-wrap; line-height: 1.25; color: var(--text); }
   .cc-done .cc-line{ opacity: 0.55; text-decoration: line-through; }
 
-  /* Minimal per-task actions */
   .cc-rowactions{
     display:flex; flex-wrap:wrap; gap:8px;
     margin-top: 6px;
@@ -168,7 +160,6 @@ permalink: /systems/task-console/
   }
   .cc-mini:hover{ background: rgba(0,0,0,0.04); }
 
-  /* Quick add */
   .cc-add{
     display:flex; gap:8px; align-items:center; flex-wrap:wrap;
     margin-top: 10px;
@@ -191,15 +182,15 @@ permalink: /systems/task-console/
   }
   .cc-btn:hover{ background: rgba(0,0,0,0.04); }
 
-  /* Reserved space below (events + future) */
-  .cc-below{
-    margin-top: 14px;
+  /* Events view panels */
+  .cc-panels{
     display:grid;
     grid-template-columns: 1fr;
     gap: 14px;
+    margin-top: 4px;
   }
   @media(min-width: 980px){
-    .cc-below{ grid-template-columns: 1.25fr 0.75fr; }
+    .cc-panels{ grid-template-columns: 1.25fr 0.75fr; }
   }
   .cc-panel{
     border: 1px solid rgba(0,0,0,0.10);
@@ -207,10 +198,7 @@ permalink: /systems/task-console/
     background: var(--card);
     padding: 12px;
   }
-  .cc-panel h3{
-    margin: 0 0 10px;
-    font-weight: 1150;
-  }
+  .cc-panel h3{ margin: 0 0 10px; font-weight: 1150; }
   .cc-list{ margin:0; padding-left: 18px; color: var(--text); }
   .cc-muted{ color: var(--muted); font-weight: 850; }
 
@@ -273,7 +261,11 @@ permalink: /systems/task-console/
   <h2 class="cc-title">🌙 Crescent Command Centre</h2>
   <div class="cc-subtitle">Three lanes. One day. No drift.</div>
 
-  <!-- Quiet status line -->
+  <div class="cc-tabs" role="tablist" aria-label="Console Tabs">
+    <button class="cc-tab" type="button" role="tab" aria-selected="true" data-view="lanes">Command Centre</button>
+    <button class="cc-tab" type="button" role="tab" aria-selected="false" data-view="events">Upcoming Events</button>
+  </div>
+
   <div class="cc-status">
     <span class="cc-badge" id="cc-date">—</span>
     <span class="cc-badge" id="cc-summary">Progress: 0/0</span>
@@ -281,27 +273,30 @@ permalink: /systems/task-console/
     <span class="cc-meta" id="cc-meta">Auto‑save: ON</span>
   </div>
 
-  <!-- FOCAL: three lanes -->
-  <div class="cc-lanes" id="cc-lanes"></div>
+  <!-- VIEW: LANES -->
+  <div class="cc-view active" id="cc-view-lanes">
+    <div class="cc-lanes" id="cc-lanes"></div>
+  </div>
 
-  <!-- Space reserved for Events + future sections -->
-  <div class="cc-below">
-    <div class="cc-panel">
-      <h3>📅 Upcoming Events</h3>
-      <ul class="cc-list" id="cc-events"></ul>
-      <div class="cc-muted" id="cc-events-empty">No events captured yet.</div>
-    </div>
-
-    <div class="cc-panel">
-      <h3>🧭 Next Panels (later)</h3>
-      <div class="cc-muted">
-        Reminders • Inbox/Capture • Calendar sync • Projects view<br/>
-        (We’re keeping this space deliberately empty for expansion.)
+  <!-- VIEW: EVENTS -->
+  <div class="cc-view" id="cc-view-events">
+    <div class="cc-panels">
+      <div class="cc-panel">
+        <h3>📅 Upcoming Events</h3>
+        <ul class="cc-list" id="cc-events"></ul>
+        <div class="cc-muted" id="cc-events-empty">No events captured yet.</div>
+      </div>
+      <div class="cc-panel">
+        <h3>🧭 Reserved Space</h3>
+        <div class="cc-muted">
+          Reminders • Inbox/Capture • Calendar sync • Projects view<br/>
+          (We keep this empty on purpose for expansion.)
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- Actions stay out of the way -->
+  <!-- ACTIONS (kept out of the way) -->
   <details class="cc-actions">
     <summary>⚙️ Actions & Filters</summary>
     <div class="cc-actions-row">
@@ -424,10 +419,10 @@ SATURDAY — 14 Mar 2026
   const LANES = ["CRESCENT","MPW","PERSONAL"];
   const KEY_ORDER = ["👁️‍🗨️","⚠️","🔴","⚪️","🟢","🟠","🟣","🟡","⚫️","🔵","◻️"];
 
-  // v3 bumps force a clean local state after this overwrite
-  const STORE_DATA = "crescent.cc.simple.data.v3";
-  const STORE_META = "crescent.cc.simple.meta.v3";
-  const STORE_ARCH = "crescent.cc.simple.archive.v3";
+  // v4 forces a clean rebuild and avoids stale state bugs
+  const STORE_DATA = "crescent.cc.simple.data.v4";
+  const STORE_META = "crescent.cc.simple.meta.v4";
+  const STORE_ARCH = "crescent.cc.simple.archive.v4";
 
   const elMeta = document.getElementById("cc-meta");
   const elDate = document.getElementById("cc-date");
@@ -435,6 +430,7 @@ SATURDAY — 14 Mar 2026
   const elSort = document.getElementById("cc-sort");
   const elHide = document.getElementById("cc-hide-done");
   const elSearch = document.getElementById("cc-search");
+
   const elLanes = document.getElementById("cc-lanes");
 
   const btnNewDay = document.getElementById("cc-newday-btn");
@@ -481,15 +477,16 @@ SATURDAY — 14 Mar 2026
     return 999;
   };
 
-  // Lane inference (LOCKED to your rule):
+  // Lane inference (LOCKED):
   // - WORK/MPW -> MPW
-  // - SOCIAL -> PERSONAL (unless you manually move it)
-  // - Everything else defaults to CRESCENT (your life-business umbrella)
+  // - SOCIAL -> PERSONAL (unless manually moved)
+  // - Old "PERSONAL" section = life ops -> CRESCENT (your umbrella)
+  // - Everything else -> CRESCENT
   const inferLaneFromSection = (sectionTitle) => {
     const t = (sectionTitle || "").toLowerCase().trim();
     if (t.includes("work") || t.includes("mpw")) return "MPW";
     if (t.includes("social")) return "PERSONAL";
-    if (t === "personal") return "CRESCENT"; // your old Personal section = life maintenance → Crescent
+    if (t === "personal") return "CRESCENT";
     return "CRESCENT";
   };
 
@@ -501,7 +498,6 @@ SATURDAY — 14 Mar 2026
     const lines = raw.split("\n");
     const sections = [];
     let current = { title: "TOP", tasks: [], nonTasks: [] };
-
     const events = [];
 
     lines.forEach((line) => {
@@ -766,7 +762,7 @@ SATURDAY — 14 Mar 2026
     render();
   };
 
-  const render = () => {
+  const renderLanes = () => {
     if (!elLanes.dataset.ready){
       elLanes.innerHTML = "";
       elLanes.appendChild(laneCard("CRESCENT"));
@@ -823,7 +819,10 @@ SATURDAY — 14 Mar 2026
       todayTasks.forEach(t => todayUl.appendChild(taskRow(t, lane)));
       todayMeta.textContent = `${laneTodayDone}/${laneTodayAll.length}`;
     });
+  };
 
+  const render = () => {
+    renderLanes();
     updateStatus();
     renderEvents();
   };
@@ -926,18 +925,31 @@ SATURDAY — 14 Mar 2026
     render();
   };
 
+  // Tabs
+  const tabs = Array.from(document.querySelectorAll(".cc-tab"));
+  const showView = (name) => {
+    tabs.forEach(t => t.setAttribute("aria-selected", t.dataset.view === name ? "true" : "false"));
+    document.getElementById("cc-view-lanes").classList.toggle("active", name === "lanes");
+    document.getElementById("cc-view-events").classList.toggle("active", name === "events");
+  };
+  tabs.forEach(t => t.addEventListener("click", () => showView(t.dataset.view)));
+
+  // Wire controls
   btnNewDay.addEventListener("click", newDay);
   btnExport.addEventListener("click", backupExport);
   btnCopy.addEventListener("click", copyBackup);
   btnReset.addEventListener("click", resetLocal);
 
-  elSort.addEventListener("change", render);
-  elHide.addEventListener("change", render);
-  elSearch.addEventListener("input", render);
+  elSort.addEventListener("change", () => { render(); });
+  elHide.addEventListener("change", () => { render(); });
+  elSearch.addEventListener("input", () => { render(); });
 
+  // Ensure meta exists
   meta.dateLabel = meta.dateLabel || dateLabel(now());
   save(STORE_META, meta);
 
+  // Initial render
   render();
 })();
 </script>
+``
