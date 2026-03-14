@@ -1,29 +1,135 @@
 ---
-layout: home
-title:
+layout: page
+title: Task Console
+permalink: /systems/task-console/
 ---
 
-# 🌙 Crescent OS
+<style>
+  /* =========================================================
+     CRESCENT COMMAND CENTRE — Local-First Task OS (Layer 2)
+     - Auto-saves in browser (no GitHub paste required daily)
+     - 3 Lanes for TODAY: CRESCENT / MPW / PERSONAL
+     - NEXT + TODAY queue per lane
+     - Optional backup export
+     ========================================================= */
 
-A calm personal operating system for clarity, focus, and follow-through.
+  :root{
+    --bg: rgba(0,0,0,0.03);
+    --card: rgba(0,0,0,0.02);
+    --border: rgba(0,0,0,0.12);
+    --border2: rgba(0,0,0,0.10);
+    --dash: rgba(0,0,0,0.14);
+    --txt: rgba(0,0,0,0.86);
+    --muted: rgba(0,0,0,0.62);
 
----
+    --green1:#22c55e;
+    --green2:#16a34a;
 
-## Start Here
-If you're here to use Crescent day to day:
+    --crescent:#4f46e5;
+    --mpw:#0ea5e9;
+    --personal:#f59e0b;
+  }
 
-👉 **Open the Task Console**: {{ "/systems/task-console/" | relative_url }}
+  .cc-wrap{ margin-top: 10px; }
 
-This is the main operating view. Everything else supports it.
+  /* Top command bar */
+  .cc-bar{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    padding:12px; border:1px solid var(--border);
+    border-radius:14px; background: var(--bg);
+  }
+  .cc-btn{
+    appearance:none; border:1px solid rgba(0,0,0,0.18);
+    background:#fff; border-radius:12px;
+    padding:8px 10px; cursor:pointer; font-weight:900;
+    letter-spacing:0.2px;
+  }
+  .cc-btn:hover{ background: rgba(0,0,0,0.04); }
+  .cc-bar input[type="text"], .cc-bar select{
+    padding:8px 10px; border-radius:12px;
+    border:1px solid rgba(0,0,0,0.18); background:#fff;
+    min-width:170px;
+  }
+  .cc-meta{ margin-left:auto; opacity:0.8; font-weight:800; }
 
----
+  /* HUD */
+  .cc-hud{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    margin-top:10px; padding:12px;
+    border:1px solid var(--border2);
+    border-radius:14px; background: var(--card);
+  }
+  .cc-pill{
+    padding:6px 10px; border-radius:999px;
+    border:1px solid rgba(0,0,0,0.14);
+    background:rgba(255,255,255,0.85);
+    font-weight:900; font-size:0.92em;
+  }
+  .cc-progress{
+    flex:1; min-width:220px; height:10px;
+    border-radius:999px; overflow:hidden;
+    background:rgba(0,0,0,0.10);
+    border:1px solid rgba(0,0,0,0.10);
+  }
+  .cc-progress > div{
+    width:0%; height:100%;
+    background: linear-gradient(90deg, var(--green1), var(--green2));
+  }
 
-## What Crescent OS Is
-Crescent OS is my personal operating system. It helps me manage tasks, priorities, reviews, and systems with low cognitive load and high clarity.
+  /* Tabs */
+  .cc-tabs{
+    display:flex; flex-wrap:wrap; gap:8px; align-items:center;
+    margin-top:12px;
+  }
+  .cc-tab{
+    appearance:none; border:1px solid rgba(0,0,0,0.14);
+    background:#fff; border-radius:999px;
+    padding:7px 10px; cursor:pointer; font-weight:900;
+    opacity:0.85;
+  }
+  .cc-tab[aria-selected="true"]{
+    opacity:1; border-color: rgba(0,0,0,0.22);
+    box-shadow: 0 1px 0 rgba(0,0,0,0.06);
+  }
 
-This repository is the **source of truth** for how Crescent works.
+  /* Main grid */
+  .cc-grid{ display:grid; grid-template-columns: 1fr; gap:14px; margin-top:14px; }
+  @media(min-width: 980px){
+    .cc-grid.cc-three{ grid-template-columns: 1fr 1fr 1fr; }
+  }
 
----
+  /* Lane cards */
+  .cc-lane{
+    border:1px solid var(--border2);
+    border-radius:16px; background: var(--card);
+    padding:12px 12px 10px;
+  }
+  .cc-lanehead{
+    display:flex; gap:10px; align-items:center; margin:0 0 8px;
+  }
+  .cc-lanetitle{
+    margin:0; font-size:1.05rem; font-weight:1000;
+    letter-spacing:0.2px;
+  }
+  .cc-lanebadge{
+    margin-left:auto;
+    font-weight:900; opacity:0.75;
+  }
+  .cc-lanedot{
+    width:10px; height:10px; border-radius:99px;
+    background: var(--crescent);
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.15);
+  }
+  .cc-lane[data-lane="MPW"] .cc-lanedot{
+    background: var(--mpw);
+    box-shadow: 0 0 0 3px rgba(14,165,233,0.18);
+  }
+  .cc-lane[data-lane="PERSONAL"] .cc-lanedot{
+    background: var(--personal);
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.18);
+  }
 
-## Core Areas
-✅ Task Console
+  /* Subsections inside lane */
+  .cc-sub{
+    margin-top:10px;
+    border:1px solid rgba(0,0,0,0.10);
