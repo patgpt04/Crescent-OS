@@ -21,37 +21,39 @@ permalink: /systems/task-console/
     --green2:#16a34a;
   }
 
-  /* Layout */
+  /* Wrapper */
   .cc-wrap{ margin-top: 6px; }
+
+  /* Title */
   .cc-title{
-    margin: 0 0 10px;
-    font-weight: 1000;
+    margin: 0 0 6px;
+    font-weight: 1100;
     letter-spacing: 0.2px;
   }
   .cc-subtitle{
-    margin: -4px 0 14px;
+    margin: 0 0 12px;
     color: var(--muted);
-    font-weight: 800;
+    font-weight: 850;
+    font-size: 0.95em;
   }
 
-  /* Minimal top controls */
-  .cc-topline{
+  /* Minimal status line (keep it quiet) */
+  .cc-status{
     display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-    margin: 8px 0 12px;
+    margin: 0 0 12px;
   }
-  .cc-pill{
+  .cc-badge{
     display:inline-flex; gap:8px; align-items:center;
     padding: 6px 10px;
     border: 1px solid rgba(0,0,0,0.14);
     border-radius: 999px;
     background: rgba(255,255,255,0.85);
-    font-weight: 900;
+    font-weight: 950;
     font-size: 0.92em;
   }
   .cc-progress{
-    flex:1; min-width: 220px; height: 10px;
-    border-radius: 999px;
-    overflow:hidden;
+    flex:1; min-width: 240px; height: 10px;
+    border-radius: 999px; overflow:hidden;
     border: 1px solid rgba(0,0,0,0.10);
     background: rgba(0,0,0,0.10);
   }
@@ -62,52 +64,11 @@ permalink: /systems/task-console/
   .cc-meta{
     margin-left:auto;
     color: var(--muted);
-    font-weight: 900;
+    font-weight: 950;
     font-size: 0.92em;
   }
 
-  /* Actions dropdown (keeps UI clean) */
-  details.cc-actions{
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    background: var(--bg);
-    padding: 10px 12px;
-    margin: 0 0 12px;
-  }
-  details.cc-actions > summary{
-    cursor:pointer;
-    font-weight: 1000;
-    list-style:none;
-  }
-  details.cc-actions > summary::-webkit-details-marker{ display:none; }
-  .cc-actions-row{
-    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
-    margin-top: 10px;
-  }
-  .cc-btn{
-    appearance:none;
-    border:1px solid rgba(0,0,0,0.18);
-    background:#fff;
-    border-radius: 12px;
-    padding: 8px 10px;
-    cursor:pointer;
-    font-weight: 1000;
-  }
-  .cc-btn:hover{ background: rgba(0,0,0,0.04); }
-  .cc-actions-row input[type="text"], .cc-actions-row select{
-    padding: 8px 10px;
-    border:1px solid rgba(0,0,0,0.18);
-    background:#fff;
-    border-radius: 12px;
-    min-width: 160px;
-  }
-  .cc-actions-row label{
-    display:flex; gap:8px; align-items:center;
-    font-weight: 900;
-    color: var(--text);
-  }
-
-  /* Lanes */
+  /* Lanes (focal point) */
   .cc-lanes{
     display:grid;
     grid-template-columns: 1fr;
@@ -140,16 +101,17 @@ permalink: /systems/task-console/
   }
   .cc-lanetitle{
     margin:0;
-    font-weight: 1100;
+    font-weight: 1150;
     letter-spacing: 0.2px;
   }
   .cc-lanemeta{
     margin-left:auto;
-    font-weight: 1000;
+    font-weight: 950;
     color: var(--muted);
     font-size: 0.92em;
   }
 
+  /* NEXT / TODAY blocks */
   .cc-block{
     border:1px solid rgba(0,0,0,0.10);
     border-radius: 14px;
@@ -163,16 +125,17 @@ permalink: /systems/task-console/
   }
   .cc-blockhead h4{
     margin:0;
-    font-weight: 1100;
+    font-weight: 1150;
     font-size: 0.95rem;
   }
   .cc-blockmeta{
     margin-left:auto;
-    font-weight: 1000;
+    font-weight: 950;
     color: var(--muted);
     font-size: 0.9em;
   }
 
+  /* Tasks */
   .cc-tasklist{ list-style:none; padding:0; margin:0; }
   .cc-task{
     display:grid;
@@ -187,6 +150,7 @@ permalink: /systems/task-console/
   .cc-line{ white-space: pre-wrap; line-height: 1.25; color: var(--text); }
   .cc-done .cc-line{ opacity: 0.55; text-decoration: line-through; }
 
+  /* Minimal per-task actions */
   .cc-rowactions{
     display:flex; flex-wrap:wrap; gap:8px;
     margin-top: 6px;
@@ -200,10 +164,11 @@ permalink: /systems/task-console/
     cursor:pointer;
     font-weight: 1000;
     font-size: 0.82em;
-    opacity: 0.9;
+    opacity: 0.92;
   }
   .cc-mini:hover{ background: rgba(0,0,0,0.04); }
 
+  /* Quick add */
   .cc-add{
     display:flex; gap:8px; align-items:center; flex-wrap:wrap;
     margin-top: 10px;
@@ -215,8 +180,18 @@ permalink: /systems/task-console/
     background:#fff;
     border-radius: 12px;
   }
+  .cc-btn{
+    appearance:none;
+    border:1px solid rgba(0,0,0,0.18);
+    background:#fff;
+    border-radius: 12px;
+    padding: 8px 10px;
+    cursor:pointer;
+    font-weight: 1050;
+  }
+  .cc-btn:hover{ background: rgba(0,0,0,0.04); }
 
-  /* Events + future space */
+  /* Reserved space below (events + future) */
   .cc-below{
     margin-top: 14px;
     display:grid;
@@ -234,10 +209,41 @@ permalink: /systems/task-console/
   }
   .cc-panel h3{
     margin: 0 0 10px;
-    font-weight: 1100;
+    font-weight: 1150;
   }
   .cc-list{ margin:0; padding-left: 18px; color: var(--text); }
-  .cc-muted{ color: var(--muted); font-weight: 800; }
+  .cc-muted{ color: var(--muted); font-weight: 850; }
+
+  /* Actions dropdown */
+  details.cc-actions{
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--bg);
+    padding: 10px 12px;
+    margin: 14px 0 0;
+  }
+  details.cc-actions > summary{
+    cursor:pointer;
+    font-weight: 1100;
+    list-style:none;
+  }
+  details.cc-actions > summary::-webkit-details-marker{ display:none; }
+  .cc-actions-row{
+    display:flex; flex-wrap:wrap; gap:10px; align-items:center;
+    margin-top: 10px;
+  }
+  .cc-actions-row input[type="text"], .cc-actions-row select{
+    padding: 8px 10px;
+    border:1px solid rgba(0,0,0,0.18);
+    background:#fff;
+    border-radius: 12px;
+    min-width: 160px;
+  }
+  .cc-actions-row label{
+    display:flex; gap:8px; align-items:center;
+    font-weight: 950;
+    color: var(--text);
+  }
 
   /* Backup export */
   .cc-export{
@@ -267,19 +273,18 @@ permalink: /systems/task-console/
   <h2 class="cc-title">🌙 Crescent Command Centre</h2>
   <div class="cc-subtitle">Three lanes. One day. No drift.</div>
 
-  <!-- Minimal HUD line -->
-  <div class="cc-topline">
-    <span class="cc-pill" id="cc-date">—</span>
-    <span class="cc-pill" id="cc-pill-total">Tasks: 0</span>
-    <span class="cc-pill" id="cc-pill-done">Done: 0</span>
+  <!-- Quiet status line -->
+  <div class="cc-status">
+    <span class="cc-badge" id="cc-date">—</span>
+    <span class="cc-badge" id="cc-summary">Progress: 0/0</span>
     <div class="cc-progress" aria-label="progress"><div id="cc-progress-bar"></div></div>
     <span class="cc-meta" id="cc-meta">Auto‑save: ON</span>
   </div>
 
-  <!-- Lanes FIRST (focal point) -->
+  <!-- FOCAL: three lanes -->
   <div class="cc-lanes" id="cc-lanes"></div>
 
-  <!-- Room below for Events / Reminders / Inbox (later) -->
+  <!-- Space reserved for Events + future sections -->
   <div class="cc-below">
     <div class="cc-panel">
       <h3>📅 Upcoming Events</h3>
@@ -288,12 +293,15 @@ permalink: /systems/task-console/
     </div>
 
     <div class="cc-panel">
-      <h3>📌 Next Add / Capture</h3>
-      <div class="cc-muted">Use Quick Add inside a lane. Later we’ll add: Reminders + Inbox + Calendar sync.</div>
+      <h3>🧭 Next Panels (later)</h3>
+      <div class="cc-muted">
+        Reminders • Inbox/Capture • Calendar sync • Projects view<br/>
+        (We’re keeping this space deliberately empty for expansion.)
+      </div>
     </div>
   </div>
 
-  <!-- Controls moved into dropdown to keep top clean -->
+  <!-- Actions stay out of the way -->
   <details class="cc-actions">
     <summary>⚙️ Actions & Filters</summary>
     <div class="cc-actions-row">
@@ -416,12 +424,14 @@ SATURDAY — 14 Mar 2026
   const LANES = ["CRESCENT","MPW","PERSONAL"];
   const KEY_ORDER = ["👁️‍🗨️","⚠️","🔴","⚪️","🟢","🟠","🟣","🟡","⚫️","🔵","◻️"];
 
-  const STORE_DATA = "crescent.cc.simple.data.v2";
-  const STORE_META = "crescent.cc.simple.meta.v2";
-  const STORE_ARCH = "crescent.cc.simple.archive.v2"STORE_META = "crescent.cc.simple.meta.v2";
+  // v3 bumps force a clean local state after this overwrite
+  const STORE_DATA = "crescent.cc.simple.data.v3";
+  const STORE_META = "crescent.cc.simple.meta.v3";
+  const STORE_ARCH = "crescent.cc.simple.archive.v3";
 
   const elMeta = document.getElementById("cc-meta");
   const elDate = document.getElementById("cc-date");
+  const elSummary = document.getElementById("cc-summary");
   const elSort = document.getElementById("cc-sort");
   const elHide = document.getElementById("cc-hide-done");
   const elSearch = document.getElementById("cc-search");
@@ -436,8 +446,6 @@ SATURDAY — 14 Mar 2026
   const exportText = document.getElementById("cc-export-text");
   const exportMeta = document.getElementById("cc-export-meta");
 
-  const pillTotal = document.getElementById("cc-pill-total");
-  const pillDone = document.getElementById("cc-pill-done");
   const bar = document.getElementById("cc-progress-bar");
 
   const elEvents = document.getElementById("cc-events");
@@ -453,7 +461,7 @@ SATURDAY — 14 Mar 2026
   const dayName = (d) => ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"][d.getDay()];
   const monthName = (d) => ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"][d.getMonth()];
   const dateLabel = (d) => `${dayName(d).toUpperCase()} — ${String(d.getDate()).padStart(2,"0")} ${monthName(d)} ${d.getFullYear()}`;
-  const todayWeekday = () => dayName(now()); // "Saturday"
+  const todayWeekday = () => dayName(now()); // e.g. "Saturday"
 
   const isTaskLine = (line) => {
     const s = (line || "").trim();
@@ -473,16 +481,15 @@ SATURDAY — 14 Mar 2026
     return 999;
   };
 
-  // Lane inference rules (LOCKED to your definition):
-  // - MPW = work-related sections
-  // - PERSONAL = social/leisure (default for SOCIAL section)
-  // - Everything else defaults to CRESCENT (your "life-business" umbrella)
+  // Lane inference (LOCKED to your rule):
+  // - WORK/MPW -> MPW
+  // - SOCIAL -> PERSONAL (unless you manually move it)
+  // - Everything else defaults to CRESCENT (your life-business umbrella)
   const inferLaneFromSection = (sectionTitle) => {
-    const t = (sectionTitle || "").toLowerCase();
+    const t = (sectionTitle || "").toLowerCase().trim();
     if (t.includes("work") || t.includes("mpw")) return "MPW";
     if (t.includes("social")) return "PERSONAL";
-    // "personal" section in your old console = life maintenance → CRESCENT under your new model
-    if (t.trim() === "personal") return "CRESCENT";
+    if (t === "personal") return "CRESCENT"; // your old Personal section = life maintenance → Crescent
     return "CRESCENT";
   };
 
@@ -499,6 +506,7 @@ SATURDAY — 14 Mar 2026
 
     lines.forEach((line) => {
       const t = line.trim();
+
       if (t.startsWith("## ")) {
         sections.push(current);
         current = { title: t.replace(/^##\s*/,""), tasks: [], nonTasks: [] };
@@ -512,11 +520,10 @@ SATURDAY — 14 Mar 2026
       }
 
       if (isTaskLine(line)) {
-        const done = t.startsWith("✅");
         current.tasks.push({
           id: stableId(line),
           line: t,
-          done,
+          done: t.startsWith("✅"),
           order: current.tasks.length,
           createdAt: Date.now(),
           sectionTitle: current.title,
@@ -526,8 +533,8 @@ SATURDAY — 14 Mar 2026
         current.nonTasks.push(line);
       }
     });
-    sections.push(current);
 
+    sections.push(current);
     const sectionOrder = sections.map(s => s.title).filter(x => x !== "TOP");
     return { sections, sectionOrder, events };
   };
@@ -588,15 +595,14 @@ SATURDAY — 14 Mar 2026
     save(STORE_META, meta);
   };
 
-  const updateHud = () => {
+  const updateStatus = () => {
     const tasks = allTasks();
     const total = tasks.length;
     const done = tasks.filter(t=>t.done).length;
     const pct = total ? Math.round((done/total)*100) : 0;
 
     elDate.textContent = meta.dateLabel || dateLabel(now());
-    pillTotal.textContent = `Tasks: ${total}`;
-    pillDone.textContent = `Done: ${done}`;
+    elSummary.textContent = `Progress: ${done}/${total}`;
     bar.style.width = pct + "%";
     elMeta.textContent = "Auto‑save: ON";
   };
@@ -710,12 +716,11 @@ SATURDAY — 14 Mar 2026
     const moveBtn = document.createElement("button");
     moveBtn.className = "cc-mini";
     moveBtn.type = "button";
-    moveBtn.textContent = "MOVE LANE";
+    moveBtn.textContent = "MOVE";
     moveBtn.addEventListener("click", () => {
       const idx = LANES.indexOf(t.lane);
       const nextLane = LANES[(idx + 1) % LANES.length];
       moveLane(t.id, nextLane);
-      // If it was pinned in old lane, unpin it
       if (meta.pinned && meta.pinned[t.lane] === t.id){ meta.pinned[t.lane] = null; save(STORE_META, meta); }
       render();
     });
@@ -741,7 +746,6 @@ SATURDAY — 14 Mar 2026
     const id = stableId(line);
     if (allTasks().some(t => t.id === id)) { elMeta.textContent = "Duplicate"; return; }
 
-    // Add to TODAY’S TASKS section if it exists, else first section
     const targetTitle = data.sectionOrder.find(s => (s||"").toLowerCase().includes("today") && (s||"").toLowerCase().includes("tasks")) || data.sectionOrder[0];
     const sec = data.sections.find(s => s.title === targetTitle);
     if (!sec) return;
@@ -763,7 +767,6 @@ SATURDAY — 14 Mar 2026
   };
 
   const render = () => {
-    // Build lanes once
     if (!elLanes.dataset.ready){
       elLanes.innerHTML = "";
       elLanes.appendChild(laneCard("CRESCENT"));
@@ -778,7 +781,6 @@ SATURDAY — 14 Mar 2026
 
     const tasks = allTasks().map(t => ({...t, lane: t.lane || inferLaneFromSection(t.sectionTitle)}));
 
-    // Update lane metas + lists
     LANES.forEach(lane => {
       const laneTasks = tasks.filter(t => t.lane === lane);
       const laneTodayAll = laneTasks.filter(isTodayTask);
@@ -787,7 +789,6 @@ SATURDAY — 14 Mar 2026
       const laneMeta = document.getElementById(`cc-lanemeta-${lane}`);
       if (laneMeta) laneMeta.textContent = `Today: ${laneTodayDone}/${laneTodayAll.length}`;
 
-      // NEXT selection
       const nextUl = document.getElementById(`cc-next-${lane}`);
       const todayUl = document.getElementById(`cc-today-${lane}`);
       const nextMeta = document.getElementById(`cc-nextmeta-${lane}`);
@@ -797,14 +798,10 @@ SATURDAY — 14 Mar 2026
       todayUl.innerHTML = "";
 
       let todayTasks = laneTodayAll;
-
-      // filters
       if (q) todayTasks = todayTasks.filter(t => (t.line||"").toLowerCase().includes(q));
       if (hide) todayTasks = todayTasks.filter(t => !t.done);
-
       todayTasks = applySort(todayTasks, sortMode);
 
-      // pinned NEXT if valid, else first undone, else first available
       const pinnedId = meta?.pinned?.[lane] || null;
       let nextTask = pinnedId ? laneTasks.find(t => t.id === pinnedId) : null;
 
@@ -827,7 +824,7 @@ SATURDAY — 14 Mar 2026
       todayMeta.textContent = `${laneTodayDone}/${laneTodayAll.length}`;
     });
 
-    updateHud();
+    updateStatus();
     renderEvents();
   };
 
@@ -847,7 +844,6 @@ SATURDAY — 14 Mar 2026
       sec.tasks = keep;
     });
 
-    // clear pins that no longer exist
     const remaining = new Set(allTasks().map(t=>t.id));
     LANES.forEach(l => { if (meta.pinned && meta.pinned[l] && !remaining.has(meta.pinned[l])) meta.pinned[l] = null; });
 
@@ -902,7 +898,6 @@ SATURDAY — 14 Mar 2026
       out.push("");
     });
 
-    // events
     out.push("## 📅 EVENTS");
     (data.events || []).forEach(e => out.push(`${e}  `));
 
@@ -917,8 +912,7 @@ SATURDAY — 14 Mar 2026
   const copyBackup = async () => {
     const txt = backupExport();
     exportText.focus(); exportText.select();
-    try { await navigator.clipboard.writeText(txt); }
-    catch {}
+    try { await navigator.clipboard.writeText(txt); } catch {}
   };
 
   const resetLocal = () => {
@@ -932,7 +926,6 @@ SATURDAY — 14 Mar 2026
     render();
   };
 
-  // Wire controls
   btnNewDay.addEventListener("click", newDay);
   btnExport.addEventListener("click", backupExport);
   btnCopy.addEventListener("click", copyBackup);
@@ -942,7 +935,6 @@ SATURDAY — 14 Mar 2026
   elHide.addEventListener("change", render);
   elSearch.addEventListener("input", render);
 
-  // Ensure meta exists
   meta.dateLabel = meta.dateLabel || dateLabel(now());
   save(STORE_META, meta);
 
