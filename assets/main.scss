@@ -6,32 +6,34 @@
 /* ---------------------------
    Crescent OS — Header layout
    --------------------------- */
-
-/* Make sure the brand title is visible (we previously hid it) */
-.site-header .site-title {
-  display: inline-block !important;
-  font-weight: 600;
-  letter-spacing: 0.2px;
-  text-decoration: none;
-}
-
-/* Place brand on left, nav on right */
 .site-header .wrapper {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
 }
 
-/* Keep the nav clean and minimal */
 .site-nav {
   margin-left: auto;
+  display: flex;
+  gap: 18px;
 }
 
 .site-nav a {
   text-decoration: none;
-  margin-left: 16px;
 }
 
 .site-nav a:hover {
   text-decoration: underline;
+}
+
+/* -----------------------------------------
+   Homepage fix: remove the duplicate title
+   -----------------------------------------
+   Minima adds a body class equal to the layout.
+   On the homepage it is usually: body.home
+   This hides ONLY the first H1 on the homepage.
+*/
+body.home h1:first-of-type {
+  display: none !important;
 }
