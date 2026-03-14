@@ -1,15 +1,16 @@
 <header class="site-header" role="banner">
-  <div class="wrapper">
+  <div class="wrapper" style="display:flex; align-items:center; justify-content:space-between;">
 
     <!-- Brand title (NOT clickable) -->
-    <div class="site-title" aria-label="Crescent OS">
-      🌙 {{ site.title | escape }}
+    <div aria-label="Crescent OS"
+         style="font-weight:600; letter-spacing:0.2px;">
+      🌙 Crescent OS
     </div>
 
     <!-- Header links (ONLY these) -->
     <nav class="site-nav" aria-label="Primary navigation">
-      <a class="page-link" href="{{ '/' | relative_url }}">Home</a>
-      <a class="page-link" href="{{ '/systems/task-console/' | relative_url }}">Task Console</a>
+      <a href="/" style="margin-left:16px; text-decoration:none;">Home</a>
+      <a href="/systems/task-console/" style="margin-left:16px; text-decoration:none;">Task Console</a>
     </nav>
 
   </div>
