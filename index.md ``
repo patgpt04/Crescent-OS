@@ -1,59 +1,29 @@
 ---
-layout: null
-title: Crescent OS
+layout: home
+title:
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Crescent OS</title>
+# 🌙 Crescent OS
 
-    <!-- Load Minima stylesheet so it still looks consistent -->
-    <link rel="stylesheet" href="{{ "/assets/main.css" | relative_url }}">
-  </head>
+A calm personal operating system for clarity, focus, and follow-through.
 
-  <body>
-    <!-- Keep your existing custom header include -->
-    {% include header.html %}
+---
 
-    <main class="page-content" aria-label="Content">
-      <div class="wrapper">
+## Start Here
+If you're here to use Crescent day to day:
 
-        <!-- SINGLE title (only one) -->
-        <h1 style="margin-top: 20px;">🌙 Crescent OS</h1>
+👉 **Open the Task Console**: {{ "/systems/task-console/" | relative_url }}
 
-        <p>A calm personal operating system for clarity, focus, and follow-through.</p>
+This is the main operating view. Everything else supports it.
 
-        <hr />
+---
 
-        <h2>Start Here</h2>
-        <p>If you're here to use Crescent day to day:</p>
+## What Crescent OS Is
+Crescent OS is my personal operating system. It helps me manage tasks, priorities, reviews, and systems with low cognitive load and high clarity.
 
-        <p>
-          👉 <a href="{{ "/systems/task-console/" | relative_url }}"><strong>Open the Task Console</strong></a>
-        </p>
+This repository is the **source of truth** for how Crescent works.
 
-        <p>This is the main operating view. Everything else supports it.</p>
+---
 
-        <hr />
-
-        <h2>What Crescent OS Is</h2>
-        <p>
-          Crescent OS is my personal operating system. It helps me manage tasks, priorities, reviews,
-          and systems with low cognitive load and high clarity.
-        </p>
-
-        <p>This repository is the <strong>source of truth</strong> for how Crescent works.</p>
-
-        <hr />
-
-        <h2>Core Areas</h2>
-        <p>✅ Task Console</p>
-
-      </div>
-    </main>
-  </body>
-</html>
-``
+## Core Areas
+✅ Task Console
