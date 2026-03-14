@@ -28,12 +28,16 @@
 }
 
 /* -----------------------------------------
-   Homepage fix: remove the duplicate title
+   Homepage fix: remove the theme page-heading
    -----------------------------------------
-   Minima adds a body class equal to the layout.
-   On the homepage it is usually: body.home
-   This hides ONLY the first H1 on the homepage.
+   Your DOM shows:
+   <div class="home">
+     <h1 class="page-heading">...</h1>   <-- theme-generated
+     <h1 id="-crescent-os">...</h1>      <-- your content
+   </div>
+
+   We hide ONLY the theme-generated title.
 */
-body.home h1:first-of-type {
+.home .page-heading {
   display: none !important;
 }
